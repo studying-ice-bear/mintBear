@@ -9,5 +9,4 @@ public class MintBearApplication {
     public static void main(String[] args) {
         SpringApplication.run(MintBearApplication.class, args);
     }
-
 }

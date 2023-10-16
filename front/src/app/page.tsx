@@ -1,12 +1,38 @@
-import ImageUpload from '@/components/ImageUpload'
-import Image from 'next/image'
+import { Link } from "@nextui-org/link";
+import { Snippet } from "@nextui-org/snippet";
+import { Code } from "@nextui-org/code";
+import { siteConfig } from "@/config/site";
+import { title, subtitle } from "@/components/primitives";
+import ImageUpload from "@/components/image-upload/ImageUpload";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <ImageUpload />
+    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+      <div className="inline-block max-w-lg text-center justify-center">
+        <h1 className={title()}>Unlock&nbsp;</h1>
+        <h1 className={title({ color: "violet" })}>
+          a World of Possibilities&nbsp;
+        </h1>
+        <br />
+        <h1 className={title()}>with Image OCR Recognition and Translation</h1>
+        <h2 className={subtitle({ class: "mt-4" })}>
+          easy, fast, and secure image recognition and translation
+        </h2>
       </div>
-    </main>
-  )
+      <div className="flex gap-3">
+        {/* <Link
+          isExternal
+          as={NextLink}
+          href={siteConfig.links.docs}
+          className={buttonStyles({
+            color: "primary",
+            radius: "full",
+            variant: "shadow",
+          })}
+        >
+          Documentation
+        </Link> */}
+      </div>
+    </section>
+  );
 }

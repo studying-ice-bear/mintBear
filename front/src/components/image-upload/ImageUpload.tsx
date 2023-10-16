@@ -15,7 +15,8 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import ImageEditor from "./imageEditor";
+import dynamic from "next/dynamic";
+const ImageEditor = dynamic(() => import("./imageEditor"));
 
 const ImageUpload = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

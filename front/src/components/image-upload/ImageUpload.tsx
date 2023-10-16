@@ -136,10 +136,10 @@ const ImageUpload = () => {
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>
-                    Close
+                    닫기
                   </Button>
                   <Button color="primary" onPress={onClose}>
-                    Action
+                    저장
                   </Button>
                 </ModalFooter>
               </>

@@ -22,7 +22,14 @@ public class GoogleVisionOCR {
 
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
+        // local image url
         ImageSource imgSource = ImageSource.newBuilder().setImageUri(url).build();
+
+        // if Cloud Storage url
+        // ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(gcsPath).build();
+
+        // sample gs://cloud-samples-data/vision/ocr/sign.jpg
+
         Image img = Image.newBuilder().setSource(imgSource).build();
         Feature feat = Feature.newBuilder().setType(Feature.Type.TEXT_DETECTION).build();
         AnnotateImageRequest request =
@@ -32,6 +39,23 @@ public class GoogleVisionOCR {
         try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
             BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
             List<AnnotateImageResponse> responses = response.getResponsesList();
+
+            // {
+            //  "requests": [
+            //    {
+            //      "features": [
+            //        {
+            //          "type": "TEXT_DETECTION"
+            //        }
+            //      ],
+            //      "image": {
+            //        "source": {
+            //          "imageUri": "gs://cloud-samples-data/vision/ocr/sign.jpg"
+            //        }
+            //      }
+            //    }
+            //  ]
+            //}
 
             StringBuilder result = new StringBuilder();
             for (AnnotateImageResponse res : responses) {

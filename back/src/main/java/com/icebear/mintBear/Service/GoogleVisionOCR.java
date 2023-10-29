@@ -26,7 +26,7 @@ public class GoogleVisionOCR {
         ImageSource imgSource = ImageSource.newBuilder().setImageUri(url).build();
 
         // if Cloud Storage url
-        // ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(gcsPath).build();
+        // ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(url).build();
 
         // sample gs://cloud-samples-data/vision/ocr/sign.jpg
 

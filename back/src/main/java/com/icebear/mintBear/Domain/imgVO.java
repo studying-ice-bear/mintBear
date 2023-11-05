@@ -1,4 +1,4 @@
-package com.icebear.mintBear.utilClass;
+package com.icebear.mintBear.Domain;
 public class imgVO {
     private String url;
 

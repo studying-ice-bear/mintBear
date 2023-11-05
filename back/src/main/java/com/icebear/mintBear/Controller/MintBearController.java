@@ -1,8 +1,8 @@
 package com.icebear.mintBear.Controller;
 
 import com.icebear.mintBear.Service.GoogleVisionOCR;
-import com.icebear.mintBear.utilClass.Message;
-import com.icebear.mintBear.utilClass.imgVO;
+import com.icebear.mintBear.UtilClass.Message;
+import com.icebear.mintBear.Domain.imgVO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,13 +15,12 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/parse/*")
 public class MintBearController {
+    Message message = new Message();
+    HttpHeaders headers = new HttpHeaders();
 
     @PostMapping("/img")
     public ResponseEntity<Message> parseImageByGoogleVision(@RequestBody imgVO img) throws IOException {
-        Message message = new Message();
-        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-
         String parsed = GoogleVisionOCR.execute(img.getUrl());
 
         message.setStatus(Message.StatusEnum.OK);

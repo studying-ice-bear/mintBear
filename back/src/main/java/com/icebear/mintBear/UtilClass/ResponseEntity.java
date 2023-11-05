@@ -1,4 +1,4 @@
-package com.icebear.mintBear.utilClass;
+package com.icebear.mintBear.UtilClass;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;

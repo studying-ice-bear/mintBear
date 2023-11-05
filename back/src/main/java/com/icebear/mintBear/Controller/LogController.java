@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test/*")
 public class LogController {
 
+    // testing Controller
+
     // @Slf4j 애노테이션으로 생략이 가능한 코드
     private final Logger log = LoggerFactory.getLogger(getClass());
 

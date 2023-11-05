@@ -7,6 +7,8 @@ import com.google.cloud.vision.v1.Feature;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
@@ -16,6 +18,7 @@ import java.util.List;
 
 @Service
 public class GoogleVisionOCR {
+    private static final Logger log = LoggerFactory.getLogger(GoogleVisionOCR.class);
     public static String execute(String url) throws IOException {
         StopWatch totalTime = new StopWatch();
         totalTime.start();
@@ -25,10 +28,13 @@ public class GoogleVisionOCR {
         // local image url
         ImageSource imgSource = ImageSource.newBuilder().setImageUri(url).build();
 
+
+        // ###########Debag######## //
         // if Cloud Storage url
         // ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(url).build();
 
         // sample gs://cloud-samples-data/vision/ocr/sign.jpg
+        // ###########Debag######## //
 
         Image img = Image.newBuilder().setSource(imgSource).build();
         Feature feat = Feature.newBuilder().setType(Feature.Type.TEXT_DETECTION).build();
@@ -40,6 +46,7 @@ public class GoogleVisionOCR {
             BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
             List<AnnotateImageResponse> responses = response.getResponsesList();
 
+            // ###########Debag######## //
             // {
             //  "requests": [
             //    {
@@ -56,11 +63,13 @@ public class GoogleVisionOCR {
             //    }
             //  ]
             //}
+            // ###########Debag######## //
 
             StringBuilder result = new StringBuilder();
             for (AnnotateImageResponse res : responses) {
                 if (res.hasError()) {
-                    System.out.format("Error: %s%n", res.getError().getMessage());
+                    System.out.format("OCR-API Error: %s%n", res.getError().getMessage());
+                    log.error("OCR-API Error log={}",res.getError().getMessage());
                     return null;
                 }
 
@@ -71,6 +80,7 @@ public class GoogleVisionOCR {
 
             totalTime.stop();
             System.out.println("OCR-API Total Time : " + totalTime.getTotalTimeMillis() + "ms");
+            log.info("OCR-API Total Time : {}",totalTime.getTotalTimeMillis() + "ms");
 
             return result.toString();
         }

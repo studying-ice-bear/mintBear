@@ -4,7 +4,8 @@ import TextSelection from "@/components/text-translate/textSelection";
 import { TextTranslateProvider } from "@/components/text-translate/textTranslateProvider";
 import TranslateButton from "@/components/text-translate/translateButton";
 
-export default function ImageUploadPage() {
+export default function Page({ params: { lng } }: { params: { lng: string } }) {
+  console.log(lng);
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 w-full">
       <div>

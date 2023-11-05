@@ -2,13 +2,14 @@ import "@/styles/globals.css";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-import { Providers } from "./providers";
+import { Providers } from "../providers";
 import { Navbar } from "@/components/navbar";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 import { GithubIcon } from "@/components/icons";
 import { button as buttonStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
+import { i18n } from "../../i18n-config";
 
 export const metadata: Metadata = {
   title: {
@@ -27,13 +28,21 @@ export const metadata: Metadata = {
   },
 };
 
+export async function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ lng: locale }));
+}
+
 export default function RootLayout({
   children,
+  params: { lng },
 }: {
   children: React.ReactNode;
+  params: {
+    lng: string;
+  };
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lng} suppressHydrationWarning>
       <head />
       <body
         className={clsx(
@@ -43,7 +52,7 @@ export default function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-            <Navbar />
+            <Navbar lng={lng} />
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
             </main>
@@ -55,7 +64,7 @@ export default function RootLayout({
                   variant: "bordered",
                   radius: "full",
                 })}
-                href={siteConfig.links.github}
+                href={`${siteConfig.links.github}`}
               >
                 <GithubIcon size={20} />
                 GitHub

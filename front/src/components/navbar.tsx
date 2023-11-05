@@ -29,7 +29,7 @@ import {
 
 import { Logo } from "@/components/logo";
 
-export const Navbar = () => {
+export const Navbar = ({ lng }: { lng: string }) => {
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -48,7 +48,8 @@ export const Navbar = () => {
                   "data-[active=true]:text-primary data-[active=true]:font-medium"
                 )}
                 color="foreground"
-                href={item.href}
+                href={`/${lng}${item.href}`}
+                locale={false}
               >
                 {item.label}
               </NextLink>
@@ -56,7 +57,6 @@ export const Navbar = () => {
           ))}
         </ul>
       </NavbarContent>
-
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"

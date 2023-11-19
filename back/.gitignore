@@ -2,8 +2,13 @@
 # Compiled class file
 *.class
 
+# Key
+key/
+application-SECRET-KEY.properties
+
 # Log file
 *.log
+
 
 # BlueJ files
 *.ctxt

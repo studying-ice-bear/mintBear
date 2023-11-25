@@ -1,11 +1,22 @@
+import ImageParserButton from "@/components/image-upload/ImageParserButton";
+import ImageParserResult from "@/components/image-upload/ImageParserResult";
 import ImageUpload from "@/components/image-upload/ImageUpload";
-import { Card } from "@nextui-org/react";
+import { Suspense } from "react";
 
-export default function Page({ params: { lng } }: { params: { lng: string } }) {
-  console.log(lng);
+export default async function Page({
+  params: { lng },
+}: {
+  params: { lng: string };
+}) {
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <ImageUpload />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ImageUpload />
+      </Suspense>
+      {/* <ImageParserButton /> */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <ImageParserResult />
+      </Suspense>
     </section>
   );
 }

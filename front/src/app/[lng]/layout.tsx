@@ -4,11 +4,7 @@ import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Providers } from "../providers";
 import { Navbar } from "@/components/navbar";
-import { Link } from "@nextui-org/link";
 import clsx from "clsx";
-import { GithubIcon } from "@/components/icons";
-import { button as buttonStyles } from "@nextui-org/theme";
-import NextLink from "next/link";
 import { i18n } from "../../i18n-config";
 
 export const metadata: Metadata = {
@@ -56,20 +52,6 @@ export default function RootLayout({
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
             </main>
-            <footer className="w-full flex items-center justify-center py-3">
-              <Link
-                isExternal
-                as={NextLink}
-                className={buttonStyles({
-                  variant: "bordered",
-                  radius: "full",
-                })}
-                href={`${siteConfig.links.github}`}
-              >
-                <GithubIcon size={20} />
-                GitHub
-              </Link>
-            </footer>
           </div>
         </Providers>
       </body>

@@ -6,6 +6,11 @@ import {
   title2,
   subtitle as subtitleDictionary,
 } from "./dictionary";
+import { GithubIcon } from "@/components/icons";
+import { siteConfig } from "@/config/site";
+import { Link } from "@nextui-org/link";
+import { button as buttonStyles } from "@nextui-org/theme";
+import NextLink from "next/link";
 
 export default async function Page({
   params: { lng },
@@ -38,6 +43,20 @@ export default async function Page({
         </h2>
       </div>
       <div className="flex gap-3"></div>
+      <footer className="w-full flex items-center justify-center py-3">
+        <Link
+          isExternal
+          as={NextLink}
+          className={buttonStyles({
+            variant: "bordered",
+            radius: "full",
+          })}
+          href={`${siteConfig.links.github}`}
+        >
+          <GithubIcon size={20} />
+          GitHub
+        </Link>
+      </footer>
     </section>
   );
 }

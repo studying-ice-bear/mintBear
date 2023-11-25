@@ -19,23 +19,25 @@ import {
 import dynamic from "next/dynamic";
 import { firebaseStorage } from "@/config/firebaseStorage";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import useParser from "@/app/store/useParser";
+import { postImageOCRData } from "@/api/imageParse";
 const ImageEditor = dynamic(() => import("./imageEditor"));
 
 const ImageUpload = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const { imageUrl, setImageUrl, setParsedText, setIsParseLoading } =
+    useParser();
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
-  // const [imageWidth, setImageWidth] = useState<number | null>(null);
-  // const [imageHeight, setImageHeight] = useState<number | null>(null);
-
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const handleImage: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
+  const handleImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
     const file = e.target.files;
     if (!file) {
       return;
     }
+    setImageUrl(null);
+    setParsedText(null);
 
     const storageRef = ref(firebaseStorage, `files/${file[0].name}`);
     const uploadTask = uploadBytesResumable(storageRef, file[0]);
@@ -51,11 +53,19 @@ const ImageUpload = () => {
         console.log(error);
         setUploadProgress(null);
       },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      async () => {
+        try {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           setImageUrl(downloadURL);
           setUploadProgress(null);
-        });
+          setIsParseLoading(true);
+          const parsedResult = await postImageOCRData({ url: downloadURL });
+          setParsedText(parsedResult.data);
+          setIsParseLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsParseLoading(false);
+        }
       }
     );
   };
@@ -77,7 +87,7 @@ const ImageUpload = () => {
           </div>
         </CardHeader>
         <Divider />
-        <CardBody className="flex items-center justify-center">
+        <CardBody className="flex items-center justify-center min-h-[600px]">
           <input
             type="file"
             name="image_URL"
@@ -90,7 +100,7 @@ const ImageUpload = () => {
           {!!imageUrl && typeof imageUrl === "string" && (
             <ImageComponent src={imageUrl} alt="업로드 이미지" />
           )}
-          {uploadProgress && (
+          {!!uploadProgress && (
             <CircularProgress
               value={uploadProgress}
               color="primary"

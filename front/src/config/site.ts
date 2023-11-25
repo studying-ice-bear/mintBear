@@ -12,10 +12,10 @@ export const siteConfig = {
       label: "ImageUpload",
       href: "/image-upload",
     },
-    // {
-    //   label: "Pricing",
-    //   href: "/pricing",
-    // },
+    {
+      label: "TextTranslate",
+      href: "/text-translate",
+    },
     // {
     //   label: "Blog",
     //   href: "/blog",

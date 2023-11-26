@@ -4,7 +4,7 @@
 
 # Key
 key/
-application-SECRET-KEY.properties
+/src/main/resources/application-SECRET-KEY.properties
 
 # Log file
 *.log

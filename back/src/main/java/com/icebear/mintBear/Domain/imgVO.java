@@ -10,4 +10,5 @@ import lombok.NonNull;
 public class imgVO {
     private String url;
 
+    private String option;
 }

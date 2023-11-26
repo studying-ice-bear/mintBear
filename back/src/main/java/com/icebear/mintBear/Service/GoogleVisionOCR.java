@@ -20,21 +20,17 @@ import java.util.List;
 public class GoogleVisionOCR {
     private static final Logger log = LoggerFactory.getLogger(GoogleVisionOCR.class);
     public static String execute(String url) throws IOException {
+        if(url.isEmpty()){
+            throw new IOException("url is Empty");
+        }
+
         StopWatch totalTime = new StopWatch();
         totalTime.start();
 
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
-        // local image url
+        // image url
         ImageSource imgSource = ImageSource.newBuilder().setImageUri(url).build();
-
-
-        // ###########Debag######## //
-        // if Cloud Storage url
-        // ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(url).build();
-
-        // sample gs://cloud-samples-data/vision/ocr/sign.jpg
-        // ###########Debag######## //
 
         Image img = Image.newBuilder().setSource(imgSource).build();
         Feature feat = Feature.newBuilder().setType(Feature.Type.TEXT_DETECTION).build();
@@ -46,25 +42,6 @@ public class GoogleVisionOCR {
             BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
             List<AnnotateImageResponse> responses = response.getResponsesList();
 
-            // ###########Debag######## //
-            // {
-            //  "requests": [
-            //    {
-            //      "features": [
-            //        {
-            //          "type": "TEXT_DETECTION"
-            //        }
-            //      ],
-            //      "image": {
-            //        "source": {
-            //          "imageUri": "gs://cloud-samples-data/vision/ocr/sign.jpg"
-            //        }
-            //      }
-            //    }
-            //  ]
-            //}
-            // ###########Debag######## //
-
             StringBuilder result = new StringBuilder();
             for (AnnotateImageResponse res : responses) {
                 if (res.hasError()) {
@@ -75,6 +52,7 @@ public class GoogleVisionOCR {
 
                 for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
                     result.append(annotation.getDescription()).append(" ");
+                    break;
                 }
             }
 
@@ -82,7 +60,7 @@ public class GoogleVisionOCR {
             System.out.println("OCR-API Total Time : " + totalTime.getTotalTimeMillis() + "ms");
             log.info("OCR-API Total Time : {}",totalTime.getTotalTimeMillis() + "ms");
 
-            return result.toString();
+            return result.toString().replaceAll("(\r\n|\r|\n|\n\r)", " ");
         }
         catch (Exception exception) {
             return exception.getMessage();

@@ -1,16 +1,19 @@
 package com.icebear.mintBear.Controller;
 
+import com.icebear.mintBear.Service.DeepLTranslate;
 import com.icebear.mintBear.Service.GoogleVisionOCR;
-import com.icebear.mintBear.UtilClass.Message;
+import com.icebear.mintBear.Domain.Message;
 import com.icebear.mintBear.Domain.imgVO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/parse/*")
@@ -19,14 +22,19 @@ public class MintBearController {
     HttpHeaders headers = new HttpHeaders();
 
     @PostMapping("/img")
-    public ResponseEntity<Message> parseImageByGoogleVision(@RequestBody imgVO img) throws IOException {
+    public ResponseEntity<Message> parseImageByGoogleVision(@RequestBody imgVO img) throws Exception {
+        // Set header content
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        // Execute GoogleVisionOCR
         String parsed = GoogleVisionOCR.execute(img.getUrl());
 
-        message.setStatus(Message.StatusEnum.OK);
-        message.setMessage("request-url :"+ img.getUrl());
-        message.setData(parsed);
+        // Execute DeepLTranslate
+        String result = DeepLTranslate.execute(parsed, img.getOption());
 
+        message.setStatus(Message.StatusEnum.OK);
+        message.setMessage("Your request imageUrl : "+ img.getUrl());
+        message.setData(result);
 
         return new ResponseEntity<>(message, headers, HttpStatus.OK);
 

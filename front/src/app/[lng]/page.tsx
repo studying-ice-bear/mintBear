@@ -17,33 +17,19 @@ export default async function Page({
 }: {
   params: { lng: Locale };
 }) {
-  await fetch("http://52.193.209.99:8080/parse/img", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      url: "https://content.surfit.io/thumbs/image/3MGXw/qV0yG/173663860365362819b86dc/cover-center-2x.webp",
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-    });
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-lg text-center justify-center">
+    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 flex-grow">
+      <div className="flex flex-col max-w-lg text-center justify-center whitespace-nowrap">
         <h1 className={title()}>{title1[lng]}</h1>
         <br />
         <h1 className={title({ color: "violet" })}>{highlightTitle[lng]}</h1>
         <br />
         <h1 className={title()}>{title2[lng]}</h1>
-        <h2 className={subtitle({ class: "mt-4" })}>
+        <h2 className={subtitle({ class: "mt-10" })}>
           {subtitleDictionary[lng]}
         </h2>
       </div>
-      <div className="flex gap-3"></div>
-      <footer className="w-full flex items-center justify-center py-3">
+      <footer className="w-full fixed bottom-0 flex justify-center gap-4 p-4 bg-background">
         <Link
           isExternal
           as={NextLink}

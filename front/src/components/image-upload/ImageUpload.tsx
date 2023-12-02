@@ -15,15 +15,38 @@ import {
   ModalFooter,
   ModalHeader,
   CircularProgress,
+  Skeleton,
 } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import { firebaseStorage } from "@/config/firebaseStorage";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import useParser from "@/app/store/useParser";
 import { postImageOCRData } from "@/api/imageParse";
+import { Locale } from "@/i18n-config";
 const ImageEditor = dynamic(() => import("./imageEditor"));
+export const OCRLangOption = {
+  "ko-KR": "KO",
+  "en-US": "EN",
+  "ja-JA": "JA",
+};
+const imageSelectDic: Record<Locale, string> = {
+  "ko-KR": "이미지 선택",
+  "en-US": "Select Image",
+  "ja-JA": "画像選択",
+};
 
-const ImageUpload = () => {
+const imageEditDic: Record<Locale, string> = {
+  "ko-KR": "이미지 수정",
+  "en-US": "Edit Image",
+  "ja-JA": "画像編集",
+};
+
+const titleDic: Record<Locale, string> = {
+  "ko-KR": "이미지 번역",
+  "en-US": "Image Translation",
+  "ja-JA": "画像翻訳",
+};
+const ImageUpload = ({ lng }: { lng: Locale }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { imageUrl, setImageUrl, setParsedText, setIsParseLoading } =
     useParser();
@@ -59,7 +82,10 @@ const ImageUpload = () => {
           setImageUrl(downloadURL);
           setUploadProgress(null);
           setIsParseLoading(true);
-          const parsedResult = await postImageOCRData({ url: downloadURL });
+          const parsedResult = await postImageOCRData({
+            url: downloadURL,
+            option: OCRLangOption[lng as keyof typeof OCRLangOption],
+          });
           setParsedText(parsedResult.data);
           setIsParseLoading(false);
         } catch (error) {
@@ -76,18 +102,27 @@ const ImageUpload = () => {
 
   return (
     <>
-      <Card className="min-w-[800px] max-w-[1920px]">
+      <Card className="min-w-[500px] max-w-[1920px] min-h-[600px]">
         <CardHeader className="flex items-center justify-between">
-          <h2 className={"text-primary text-3xl"}>Image Upload</h2>
+          <h2 className={"text-primary text-xl"}>{titleDic[lng]}</h2>
           <div>
-            <Button onClick={() => fileInput.current?.click()}>
-              이미지 선택
-            </Button>{" "}
-            <Button onClick={handleImageEdit}>이미지 편집</Button>
+            <Button
+              onClick={() => fileInput.current?.click()}
+              className="bg-primary-500 text-white text-xs font-bold px-4 rounded mr-2"
+            >
+              {imageSelectDic[lng]}
+            </Button>
+            <Button
+              onClick={handleImageEdit}
+              className="bg-primary-500 text-xs
+               text-white font-bold px-4 rounded"
+            >
+              {imageEditDic[lng]}
+            </Button>
           </div>
         </CardHeader>
         <Divider />
-        <CardBody className="flex items-center justify-center min-h-[600px]">
+        <CardBody className="flex items-center justify-center max-w-[500px]">
           <input
             type="file"
             name="image_URL"
@@ -98,7 +133,17 @@ const ImageUpload = () => {
             onChange={handleImage}
           />
           {!!imageUrl && typeof imageUrl === "string" && (
-            <ImageComponent src={imageUrl} alt="업로드 이미지" />
+            <ImageComponent
+              className="object-contain"
+              src={imageUrl}
+              alt={
+                {
+                  "ko-KR": "이미지",
+                  "en-US": "image",
+                  "ja-JA": "画像",
+                }[lng]
+              }
+            />
           )}
           {!!uploadProgress && (
             <CircularProgress
@@ -154,5 +199,9 @@ const ImageUpload = () => {
     </>
   );
 };
+
+export function ImageUploadLoading() {
+  return <Skeleton className="min-w-[500px] max-w-[1920px]" />;
+}
 
 export default ImageUpload;

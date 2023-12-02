@@ -12,7 +12,7 @@ const selectLabel = {
   "ja-JA": "日本語",
 };
 
-const I18nSelect = () => {
+const I18nSelect = ({ lng }: { lng: string }) => {
   const options = Object.entries(LANGUAGE_OPTIONS).map(([key, value]) => ({
     label: value,
     value: key,
@@ -32,9 +32,14 @@ const I18nSelect = () => {
   };
   return (
     <Select
-      placeholder="Select language"
-      className="max-w-xs w-40"
+      placeholder={
+        selectLabel[lng as keyof typeof selectLabel] ?? "Select language"
+      }
+      className="min-w-[100px]"
       onChange={onChange}
+      classNames={{
+        trigger: "h-10",
+      }}
     >
       {options.map(({ label, value }) => (
         <SelectItem key={value} value={value}>

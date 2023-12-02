@@ -5,7 +5,7 @@ import { fontSans } from "@/config/fonts";
 import { Providers } from "../providers";
 import { Navbar } from "@/components/navbar";
 import clsx from "clsx";
-import { i18n } from "../../i18n-config";
+import { LANGUAGE_OPTIONS, i18n } from "../../i18n-config";
 
 export const metadata: Metadata = {
   title: {
@@ -34,7 +34,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
   params: {
-    lng: string;
+    lng: keyof typeof LANGUAGE_OPTIONS;
   };
 }) {
   return (

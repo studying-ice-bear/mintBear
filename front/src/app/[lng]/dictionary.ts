@@ -1,21 +1,21 @@
 import { Locale } from "@/i18n-config";
 
 export const title1: Record<Locale, string> = {
-  "ko-KR": "이미지 OCR 인식 및 번역으로",
+  "ko-KR": "이미지 번역으로",
   "en-US": "Unlock",
-  "ja-JA": "",
+  "ja-JA": "イメージ翻訳サービスで",
 };
 
 export const highlightTitle: Record<Locale, string> = {
   "ko-KR": "무한한 가능성을",
   "en-US": "a World of Possibilities",
-  "ja-JA": "a World of Possibilities",
+  "ja-JA": "無限の可能性を",
 };
 
 export const title2: Record<Locale, string> = {
   "ko-KR": "여십시오.",
-  "en-US": "with Image OCR Recognition and Translation",
-  "ja-JA": "with Image OCR Recognition and Translation",
+  "en-US": "with Image Translation",
+  "ja-JA": "楽しんでください",
 };
 
 export const subtitle: Record<Locale, string> = {

@@ -9,15 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.1.13",
+    "@nextui-org/react": "^2.2.9",
+    "@tanstack/react-query": "^5.8.7",
+    "@tanstack/react-query-devtools": "^5.8.7",
+    "@tanstack/react-query-next-experimental": "^5.8.7",
     "@toast-ui/react-image-editor": "^3.15.2",
+    "firebase": "^10.6.0",
     "framer-motion": "^10.16.4",
+    "negotiator": "^0.6.3",
     "next": "13.5.4",
     "next-themes": "^0.2.1",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-i18next": "^13.3.1",
+    "server-only": "^0.0.1",
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
+    "@types/negotiator": "^0.6.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

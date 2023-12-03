@@ -14,61 +14,86 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  CircularProgress,
+  Skeleton,
 } from "@nextui-org/react";
 import dynamic from "next/dynamic";
+import { firebaseStorage } from "@/config/firebaseStorage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import useParser from "@/app/store/useParser";
+import { postImageOCRData } from "@/api/imageParse";
+import { Locale } from "@/i18n-config";
 const ImageEditor = dynamic(() => import("./imageEditor"));
+export const OCRLangOption = {
+  "ko-KR": "KO",
+  "en-US": "EN",
+  "ja-JA": "JA",
+};
+const imageSelectDic: Record<Locale, string> = {
+  "ko-KR": "이미지 선택",
+  "en-US": "Select Image",
+  "ja-JA": "画像選択",
+};
 
-const ImageUpload = () => {
+const imageEditDic: Record<Locale, string> = {
+  "ko-KR": "이미지 수정",
+  "en-US": "Edit Image",
+  "ja-JA": "画像編集",
+};
+
+const titleDic: Record<Locale, string> = {
+  "ko-KR": "이미지 번역",
+  "en-US": "Image Translation",
+  "ja-JA": "画像翻訳",
+};
+const ImageUpload = ({ lng }: { lng: Locale }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
-  const [imageWidth, setImageWidth] = useState<number | null>(null);
-  const [imageHeight, setImageHeight] = useState<number | null>(null);
-
+  const { imageUrl, setImageUrl, setParsedText, setIsParseLoading } =
+    useParser();
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const handleImage: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
-    if (!e.target.files || e.target.files.length === 0) return;
-    const file = e.target.files[0];
-    const url = URL.createObjectURL(file);
-    const _image = new Image();
-    _image.src = url;
-    _image.onload = () => {
-      const width = _image.width;
-      const height = _image.height;
-      if (width > 1920 && height > 1080) {
-        setImageWidth(1920);
-        setImageHeight(1080);
-        setImage(url);
-        return;
+  const handleImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    e.preventDefault();
+    const file = e.target.files;
+    if (!file) {
+      return;
+    }
+    setImageUrl(null);
+    setParsedText(null);
+
+    const storageRef = ref(firebaseStorage, `files/${file[0].name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file[0]);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
+      },
+      (error) => {
+        console.log(error);
+        setUploadProgress(null);
+      },
+      async () => {
+        try {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageUrl(downloadURL);
+          setUploadProgress(null);
+          setIsParseLoading(true);
+          const parsedResult = await postImageOCRData({
+            url: downloadURL,
+            option: OCRLangOption[lng as keyof typeof OCRLangOption],
+          });
+          setParsedText(parsedResult.data);
+          setIsParseLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsParseLoading(false);
+        }
       }
-      setImageWidth(_image.width);
-      setImageHeight(_image.height);
-      setImage(url);
-    };
-
-    const reader = new FileReader();
-
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      // 파일 onLoad가 성공하면 2, 로딩은 1, 실패는 0 반환
-      switch (reader.readyState) {
-        case 0:
-          setImage(null);
-          break;
-        case 1:
-          setImage(e.target?.result ?? null);
-          break;
-        case 2:
-          setImage(e.target?.result ?? null);
-          break;
-        default:
-          setImage(null);
-          break;
-      }
-    };
-
-    const formData = new FormData(); // 나중에 가져다가 쓰면됨
-    formData.append("image", file);
+    );
   };
 
   const handleImageEdit: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -77,18 +102,27 @@ const ImageUpload = () => {
 
   return (
     <>
-      <Card className="min-w-[800px] max-w-[1920px]">
+      <Card className="min-w-[500px] max-w-[1920px] min-h-[600px]">
         <CardHeader className="flex items-center justify-between">
-          <h2 className={"text-primary text-3xl"}>Image Upload</h2>
+          <h2 className={"text-primary text-xl"}>{titleDic[lng]}</h2>
           <div>
-            <Button onClick={() => fileInput.current?.click()}>
-              이미지 선택
-            </Button>{" "}
-            <Button onClick={handleImageEdit}>이미지 편집</Button>
+            <Button
+              onClick={() => fileInput.current?.click()}
+              className="bg-primary-500 text-white text-xs font-bold px-4 rounded mr-2"
+            >
+              {imageSelectDic[lng]}
+            </Button>
+            <Button
+              onClick={handleImageEdit}
+              className="bg-primary-500 text-xs
+               text-white font-bold px-4 rounded"
+            >
+              {imageEditDic[lng]}
+            </Button>
           </div>
         </CardHeader>
         <Divider />
-        <CardBody className="flex items-center justify-center">
+        <CardBody className="flex items-center justify-center max-w-[500px]">
           <input
             type="file"
             name="image_URL"
@@ -98,17 +132,31 @@ const ImageUpload = () => {
             ref={fileInput}
             onChange={handleImage}
           />
-          {!!image && typeof image === "string" && (
+          {!!imageUrl && typeof imageUrl === "string" && (
             <ImageComponent
-              src={image}
-              width={imageWidth ?? 0}
-              height={imageHeight ?? 0}
-              alt="업로드 이미지"
+              className="object-contain"
+              src={imageUrl}
+              alt={
+                {
+                  "ko-KR": "이미지",
+                  "en-US": "image",
+                  "ja-JA": "画像",
+                }[lng]
+              }
+            />
+          )}
+          {!!uploadProgress && (
+            <CircularProgress
+              value={uploadProgress}
+              color="primary"
+              aria-label="Loading"
+              size="lg"
+              showValueLabel
             />
           )}
         </CardBody>
       </Card>
-      {!!image && typeof image === "string" && (
+      {/* {!!image && typeof image === "string" && (
         <Modal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
@@ -147,9 +195,13 @@ const ImageUpload = () => {
             )}
           </ModalContent>
         </Modal>
-      )}
+      )} */}
     </>
   );
 };
+
+export function ImageUploadLoading() {
+  return <Skeleton className="min-w-[500px] max-w-[1920px]" />;
+}
 
 export default ImageUpload;

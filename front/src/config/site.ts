@@ -1,4 +1,22 @@
+import { LANGUAGE_OPTIONS } from "@/i18n-config";
+
 export type SiteConfig = typeof siteConfig;
+
+export const navLabelDictionary: Record<
+  string,
+  Record<keyof typeof LANGUAGE_OPTIONS, string>
+> = {
+  Home: {
+    "ko-KR": "홈",
+    "en-US": "Home",
+    "ja-JA": "ホーム",
+  },
+  ImageUpload: {
+    "ko-KR": "이미지 업로드",
+    "en-US": "Image Upload",
+    "ja-JA": "イメージアップロード",
+  },
+};
 
 export const siteConfig = {
   name: "mintBear",
@@ -13,8 +31,8 @@ export const siteConfig = {
       href: "/image-upload",
     },
     // {
-    //   label: "Pricing",
-    //   href: "/pricing",
+    //   label: "TextTranslate",
+    //   href: "/text-translate",
     // },
     // {
     //   label: "Blog",

@@ -19,8 +19,8 @@ import java.util.List;
 @Service
 public class GoogleVisionOCR {
     private static final Logger log = LoggerFactory.getLogger(GoogleVisionOCR.class);
-    public static String execute(String url) throws IOException {
-        if(url.isEmpty()){
+    public static String execute(String url) throws Exception {
+        if(url.isEmpty() || url.isBlank()){
             throw new IOException("url is Empty");
         }
 
@@ -62,8 +62,8 @@ public class GoogleVisionOCR {
 
             return result.toString().replaceAll("(\r\n|\r|\n|\n\r)", " ");
         }
-        catch (Exception exception) {
-            return exception.getMessage();
+        catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
     }
 }

@@ -28,14 +28,17 @@ public class DeepLTranslate {
         Usage usage = translator.getUsage();
 
         try {
+            // Deepl usage limited
             if (usage.anyLimitReached()) {
                 String message = "Translation limit reached.";
                 log.error(message);
                 throw new Exception(message);
             }
+            // check Deepl usage
             if (usage.getCharacter() != null) {
                 log.info("Character usage: "+usage.getCharacter().getCount() + "of " + usage.getCharacter().getLimit());
             }
+            // check Deepl usage
             if (usage.getDocument() != null) {
                 log.info("Character usage: "+usage.getDocument().getCount() + "of " + usage.getDocument().getLimit());
             }
@@ -49,8 +52,8 @@ public class DeepLTranslate {
 
             return result.getText();
         }
-        catch (Exception exception) {
-            return exception.getMessage();
+        catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
     }
 }

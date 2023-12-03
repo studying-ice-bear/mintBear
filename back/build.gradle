@@ -28,6 +28,7 @@ dependencies {
 	implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.1.0'
 	implementation 'org.projectlombok:lombok'
 	implementation "com.deepl.api:deepl-java:1.4.0"
+	implementation 'com.bucket4j:bucket4j-core:8.3.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'

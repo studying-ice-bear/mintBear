@@ -17,7 +17,8 @@ public class Message {
         BAD_REQUEST(400, "BAD_REQUEST"),
         NOT_FOUND(404, "NOT_FOUND"),
         INTERNAL_SERER_ERROR(500, "INTERNAL_SERVER_ERROR"),
-        EMPTY_RETURN(404, "Character recognition failed. Please check the image.");
+        EMPTY_RETURN(404, "Character recognition failed. Please check the image."),
+        Too_Many_Requests(429, "Too_Many_Request.");
 
         final int statusCode;
         final String code;

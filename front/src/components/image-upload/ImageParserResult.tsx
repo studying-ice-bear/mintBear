@@ -19,9 +19,11 @@ const titleDic: Record<Locale, string> = {
 const ImageParserResult = ({ lng }: { lng: Locale }) => {
   const { parsedText, isParseLoading } = useParser();
   return (
-    <Card className="min-w-[500px] max-w-[1920px] min-h-[600px]">
+    <Card className="min-w-[365px] sm:min-w-[500px] max-w-[1920px] min-h-[370px] sm:min-h-[600px]">
       <CardHeader className="flex items-center justify-between">
-        <h2 className={"text-primary text-xl"}>{titleDic[lng]}</h2>
+        <h2 className={"text-primary sm:text-md sm:text-xl"}>
+          {titleDic[lng]}
+        </h2>
       </CardHeader>
       <Progress
         size="sm"

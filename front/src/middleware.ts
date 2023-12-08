@@ -26,6 +26,8 @@ function getLocale(request: NextRequest): string | undefined {
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", pathname);
 
   // // `/_next/` and `/api/` are ignored by the watcher, but we need to ignore files in `public` manually.
   // // If you have one
@@ -42,8 +44,6 @@ export function middleware(request: NextRequest) {
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
-  // localhost:3000/en-US/products
-  console.log("ismissing", pathnameIsMissingLocale, i18n.locales, pathname);
 
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
@@ -58,6 +58,12 @@ export function middleware(request: NextRequest) {
       )
     );
   }
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
 
 export const config = {

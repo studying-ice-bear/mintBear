@@ -12,7 +12,7 @@ export default async function Page({
   params: { lng: Locale };
 }) {
   return (
-    <section className="flex flex-row items-center justify-center gap-4 py-8 md:py-10">
+    <section className="flex flex-row flex-wrap items-center justify-center gap-4 py-8 md:py-10">
       <Suspense fallback={<ImageUploadLoading />}>
         <ImageUpload lng={lng} />
       </Suspense>

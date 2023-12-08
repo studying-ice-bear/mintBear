@@ -100,27 +100,32 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
 
   return (
     <>
-      <Card className="min-w-[500px] max-w-[1920px] min-h-[600px]">
+      <Card className="min-w-[365px] sm:min-w-[500px] max-w-[1920px] min-h-[370px] sm:min-h-[600px]">
         <CardHeader className="flex items-center justify-between">
-          <h2 className={"text-primary text-xl"}>{titleDic[lng]}</h2>
+          <h2 className={"text-primary sm:text-md sm:text-xl"}>
+            {titleDic[lng]}
+          </h2>
           <div>
             <Button
               onClick={() => fileInput.current?.click()}
-              className="bg-primary-500 text-white text-xs font-bold px-4 rounded mr-2"
+              className="bg-primary-500 text-white text-xs font-bold md:px-4 rounded mr-2"
+              size="sm"
             >
               {imageSelectDic[lng]}
             </Button>
             <Button
               onClick={handleImageEdit}
-              className="bg-primary-500 text-xs
-               text-white font-bold px-4 rounded"
+              className="bg-primary-500 text-xs disabled:opacity-50
+               text-white font-bold md:px-4 rounded"
+              size="sm"
+              disabled={!imageUrl}
             >
               {imageEditDic[lng]}
             </Button>
           </div>
         </CardHeader>
         <Divider />
-        <CardBody className="flex items-center justify-center max-w-[500px]">
+        <CardBody className="flex items-center justify-center min-w-[365px] sm:max-w-[500px]">
           <input
             type="file"
             name="image_URL"
@@ -199,7 +204,7 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
 };
 
 export function ImageUploadLoading() {
-  return <Skeleton className="min-w-[500px] max-w-[1920px]" />;
+  return <Skeleton className="sm:min-w-[500px] max-w-[1920px]" />;
 }
 
 export default ImageUpload;

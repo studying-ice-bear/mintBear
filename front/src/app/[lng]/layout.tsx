@@ -39,7 +39,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang={lng} suppressHydrationWarning>
-      <head />
+      <head>
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </head>
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",

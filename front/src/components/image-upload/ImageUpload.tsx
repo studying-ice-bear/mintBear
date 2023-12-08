@@ -72,7 +72,6 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
         setUploadProgress(progress);
       },
       (error) => {
-        console.log(error, firebaseConfig);
         setUploadProgress(null);
       },
       async () => {

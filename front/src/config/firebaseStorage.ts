@@ -10,8 +10,6 @@ export const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-console.log("firebaseConfig", firebaseConfig);
-
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
 export const firebaseStorage = getStorage(firebaseApp);

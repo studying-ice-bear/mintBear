@@ -15,7 +15,6 @@ import { LANGUAGE_OPTIONS } from "@/i18n-config";
 interface LanguageSelectProps extends Omit<SelectProps, "children"> {}
 
 export default function LanguageSelect({ ...rest }: LanguageSelectProps) {
-  const alreadySelectedLanguage = "en-US"; // 이후 i18n 적용시 설정되어 있는 값
   const { selectedLanguage } = useTextTranslateValue();
   const { languageChanged } = useTextTranslateAction();
 
@@ -35,10 +34,7 @@ export default function LanguageSelect({ ...rest }: LanguageSelectProps) {
     <Select
       aria-label="Language"
       label="Select Language to translate"
-      defaultValue={alreadySelectedLanguage}
-      value={
-        selectedLanguage === "" ? alreadySelectedLanguage : selectedLanguage
-      }
+      value={selectedLanguage}
       onChange={onSelectLanguage}
       {...rest}
     >

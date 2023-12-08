@@ -11,21 +11,27 @@ export async function postImageOCRData({
   url: string;
   option?: string;
 }): Promise<ParseResult> {
-  const res = await fetch("http://52.193.209.99:8080/parse/img", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      url,
-      option,
-    }),
-  });
+  try {
+    const res = await fetch("http://52.193.209.99:8080/parse/img", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url,
+        option,
+      }),
+    });
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      console.log("error", res);
+      throw new Error("Failed to fetch data", { cause: res });
+    }
+
+    return res.json();
+  } catch (error) {
+    console.log("error", error);
+    throw new Error("Failed to fetch data", { cause: error });
   }
-
-  return res.json();
 }

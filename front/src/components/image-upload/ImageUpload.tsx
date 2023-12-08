@@ -18,7 +18,7 @@ import {
   Skeleton,
 } from "@nextui-org/react";
 import dynamic from "next/dynamic";
-import { firebaseStorage } from "@/config/firebaseStorage";
+import { firebaseConfig, firebaseStorage } from "@/config/firebaseStorage";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import useParser from "@/app/store/useParser";
 import { postImageOCRData } from "@/api/imageParse";
@@ -54,7 +54,6 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
   const fileInput = useRef<HTMLInputElement>(null);
 
   const handleImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    e.preventDefault();
     const file = e.target.files;
     if (!file) {
       return;
@@ -73,7 +72,7 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
         setUploadProgress(progress);
       },
       (error) => {
-        console.log(error);
+        console.log(error, firebaseConfig);
         setUploadProgress(null);
       },
       async () => {

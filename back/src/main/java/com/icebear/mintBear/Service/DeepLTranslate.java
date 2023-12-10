@@ -1,5 +1,7 @@
 package com.icebear.mintBear.Service;
 import com.icebear.mintBear.Domain.ApiKey;
+import com.icebear.mintBear.Exception.CustomException;
+import com.icebear.mintBear.Exception.HttpErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,7 @@ public class DeepLTranslate {
         try {
             // Deepl usage limited
             if (usage.anyLimitReached()) {
-                String message = "Translation limit reached.";
-                log.error(message);
-                throw new Exception(message);
+                throw new CustomException(HttpErrorCode.TOO_MANY_REQUESTS);
             }
             // check Deepl usage
             if (usage.getCharacter() != null) {
@@ -42,10 +42,8 @@ public class DeepLTranslate {
             if (usage.getDocument() != null) {
                 log.info("Character usage: "+usage.getDocument().getCount() + "of " + usage.getDocument().getLimit());
             }
-            // Translate text into a target language, in this case, French:
-            TextResult result =
-                    translator.translateText(text, null, language);
-
+            // Translate text into a target language
+            TextResult result = translator.translateText(text, null, language);
             totalTime.stop();
             System.out.println("DeepL-API Total Time : " + totalTime.getTotalTimeMillis() + "ms");
             log.info("DeepL-API Total Time : {}",totalTime.getTotalTimeMillis() + "ms");

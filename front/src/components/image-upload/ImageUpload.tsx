@@ -32,13 +32,13 @@ export const OCRLangOption = {
 const imageSelectDic: Record<Locale, string> = {
   "ko-KR": "이미지 선택",
   "en-US": "Select Image",
-  "ja-JA": "画像選択",
+  "ja-JA": "選択",
 };
 
 const imageEditDic: Record<Locale, string> = {
   "ko-KR": "이미지 수정",
   "en-US": "Edit Image",
-  "ja-JA": "画像編集",
+  "ja-JA": "編集",
 };
 
 const titleDic: Record<Locale, string> = {

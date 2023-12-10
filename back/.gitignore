@@ -2,8 +2,15 @@
 # Compiled class file
 *.class
 
+# Key
+key/
+/src/main/resources/application-SECRET-KEY.properties
+
 # Log file
 *.log
+
+# Mac
+.DS_Store
 
 # BlueJ files
 *.ctxt

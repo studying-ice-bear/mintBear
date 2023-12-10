@@ -20,10 +20,6 @@ import java.util.List;
 public class GoogleVisionOCR {
     private static final Logger log = LoggerFactory.getLogger(GoogleVisionOCR.class);
     public static String execute(String url) throws Exception {
-        if(url.isEmpty() || url.isBlank()){
-            throw new IOException("url is Empty");
-        }
-
         StopWatch totalTime = new StopWatch();
         totalTime.start();
 

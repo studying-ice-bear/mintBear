@@ -11,16 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test/*")
 public class LogController {
 
-    // testing Controller
+    // Testing Controller
 
-    // @Slf4j 애노테이션으로 생략이 가능한 코드
+    // @Slf4j
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/log")
     public String logTest(){
         String name = "loggingTest";
 
-        //  {}는 쉼표 뒤에 파라미터가 치환되는 것
         log.error("error log={}",name);
         log.warn("warn log={}",name);
         log.info("info log={}",name);

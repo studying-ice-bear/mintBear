@@ -19,7 +19,7 @@ public class DeepLTranslate {
         apiKey = apiKeyClass.getApiKey();
     }
 
-    public static String execute(String text, String option) throws Exception {
+    public static String execute(String text, String language) throws Exception {
         StopWatch totalTime = new StopWatch();
         totalTime.start();
 
@@ -44,7 +44,7 @@ public class DeepLTranslate {
             }
             // Translate text into a target language, in this case, French:
             TextResult result =
-                    translator.translateText(text, null, option);
+                    translator.translateText(text, null, language);
 
             totalTime.stop();
             System.out.println("DeepL-API Total Time : " + totalTime.getTotalTimeMillis() + "ms");

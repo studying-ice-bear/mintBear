@@ -9,6 +9,8 @@ key/
 # Log file
 *.log
 
+# Mac
+.DS_Store
 
 # BlueJ files
 *.ctxt

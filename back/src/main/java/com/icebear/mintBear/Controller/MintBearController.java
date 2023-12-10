@@ -35,6 +35,10 @@ public class MintBearController {
             throw new CustomException(HttpErrorCode.URL_NOT_FOUND);
         }
 
+        if(language.isBlank()){
+            throw new CustomException(HttpErrorCode.OPTION_NOT_FOUND);
+        }
+
         if(bucket.getAvailableTokens() == 0){
             throw new CustomException(HttpErrorCode.TOO_MANY_REQUESTS);
         }

@@ -14,10 +14,20 @@ export async function postImageOCRData({
   option?: string;
 }): Promise<AxiosResponse<string>> {
   try {
-    const res = await axios.post("http://52.193.209.99:8080/v1/ocr/translate", {
-      url,
-      option,
-    });
+    const origin = window.location.origin;
+    const res = await axios.post(
+      "http://52.193.209.99:8080/v1/ocr/translate",
+      {
+        url,
+        option,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Origin: origin,
+        },
+      }
+    );
 
     if (res.status >= 400) {
       // This will activate the closest `error.js` Error Boundary

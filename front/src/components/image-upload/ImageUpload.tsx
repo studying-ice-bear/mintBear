@@ -26,7 +26,7 @@ import { Locale } from "@/i18n-config";
 const ImageEditor = dynamic(() => import("./imageEditor"));
 export const OCRLangOption = {
   "ko-KR": "KO",
-  "en-US": "EN",
+  "en-US": "EN-US",
   "ja-JA": "JA",
 };
 const imageSelectDic: Record<Locale, string> = {

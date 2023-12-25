@@ -24,7 +24,6 @@ export async function postImageOCRData({
       {
         headers: {
           "Content-Type": "application/json",
-          withCredentials: true,
         },
       }
     );

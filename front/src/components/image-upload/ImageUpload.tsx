@@ -20,17 +20,10 @@ import {
 import dynamic from "next/dynamic";
 import { firebaseConfig, firebaseStorage } from "@/config/firebaseStorage";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import useParser from "@/app/store/useParser";
+import useParser, { OCRLangOption } from "@/app/store/useParser";
 import { postImageOCRData } from "@/api/imageParse";
 import { Locale } from "@/i18n-config";
-const ImageEditor = dynamic(() => import("./imageEditor"));
-
-export type TOCRLangOption = "KO" | "EN-US" | "JA";
-export const OCRLangOption: Record<Locale, TOCRLangOption> = {
-  "ko-KR": "KO",
-  "en-US": "EN-US",
-  "ja-JA": "JA",
-};
+import ImageCropModal from "./imageCropModal";
 const imageSelectDic: Record<Locale, string> = {
   "ko-KR": "이미지 선택",
   "en-US": "Select Image",
@@ -56,6 +49,7 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
     setParsedText,
     setIsParseLoading,
     getParsing,
+    option,
   } = useParser();
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -85,7 +79,10 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
         try {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           setImageUrl(downloadURL);
-          await getParsing({ url: downloadURL, option: OCRLangOption[lng] });
+          await getParsing({
+            url: downloadURL,
+            option: option ?? OCRLangOption[lng],
+          });
           setUploadProgress(null);
         } catch (error) {
           setImageUrl(null);
@@ -160,46 +157,7 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
           )}
         </CardBody>
       </Card>
-      {/* {!!image && typeof image === "string" && (
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          isDismissable={false}
-          size="5xl"
-        >
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalBody className="max-h-[95vh] overflow-auto flex items-center justify-center">
-                  <ImageEditor
-                    includeUI={{
-                      menu: ["shape", "filter"],
-                      initMenu: "filter",
-                      loadImage: {
-                        path: image,
-                        name: "test",
-                      },
-                      uiSize: {
-                        width: `58rem`,
-                        height: `85vh`,
-                      },
-                      menuBarPosition: "bottom",
-                    }}
-                  />
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    닫기
-                  </Button>
-                  <Button color="primary" onPress={onClose}>
-                    저장
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )} */}
+      <ImageCropModal isOpen={isOpen} onOpenChange={onOpenChange} lng={lng} />
     </>
   );
 };

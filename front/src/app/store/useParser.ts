@@ -1,9 +1,14 @@
 import { postImageOCRData } from "@/api/imageParse";
-import {
-  OCRLangOption,
-  TOCRLangOption,
-} from "@/components/image-upload/ImageUpload";
+import { Locale } from "@/i18n-config";
+
 import { create } from "zustand";
+
+export type TOCRLangOption = "KO" | "EN-US" | "JA";
+export const OCRLangOption: Record<Locale, TOCRLangOption> = {
+  "ko-KR": "KO",
+  "en-US": "EN-US",
+  "ja-JA": "JA",
+};
 
 interface ParserState {
   imageUrl: string | null;
@@ -19,6 +24,8 @@ interface ParserState {
     url: string;
     option: TOCRLangOption | undefined;
   }) => Promise<void>;
+  option: TOCRLangOption | undefined;
+  setOption: (option: TOCRLangOption | undefined) => void;
 }
 
 const useParser = create<ParserState>()((set, get) => ({
@@ -47,6 +54,8 @@ const useParser = create<ParserState>()((set, get) => ({
       set({ parsedText: null, isParseLoading: false });
     }
   },
+  option: undefined,
+  setOption: (option: TOCRLangOption | undefined) => set({ option }),
 }));
 
 export default useParser;

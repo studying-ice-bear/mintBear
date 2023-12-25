@@ -1,5 +1,5 @@
 "use client";
-import useParser from "@/app/store/useParser";
+import useParser, { OCRLangOption } from "@/app/store/useParser";
 import { Locale } from "@/i18n-config";
 import {
   Button,
@@ -13,7 +13,6 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import React from "react";
-import { OCRLangOption } from "./ImageUpload";
 const titleDic: Record<Locale, string> = {
   "en-US": "Image parsing result",
   "ko-KR": "이미지 분석 결과",
@@ -40,11 +39,21 @@ const languages = [
   },
 ];
 const ImageParserResult = ({ lng }: { lng: Locale }) => {
-  const { parsedText, isParseLoading, imageUrl, getParsing } = useParser();
+  const {
+    parsedText,
+    isParseLoading,
+    imageUrl,
+    getParsing,
+    option,
+    setOption,
+  } = useParser();
   const handleSelect: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = event.target.value;
-    const option = OCRLangOption[value as keyof typeof OCRLangOption];
-    getParsing({ url: imageUrl!, option });
+    setOption(OCRLangOption[value as keyof typeof OCRLangOption]);
+    getParsing({
+      url: imageUrl!,
+      option: option ?? OCRLangOption[value as keyof typeof OCRLangOption],
+    });
   };
   return (
     <Card className="min-w-[365px] sm:min-w-[500px] max-w-[1920px] min-h-[370px] sm:min-h-[600px]">

@@ -50,6 +50,7 @@ const ImageParserResult = ({ lng }: { lng: Locale }) => {
   const handleSelect: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = event.target.value;
     setOption(OCRLangOption[value as keyof typeof OCRLangOption]);
+
     getParsing({
       url: imageUrl!,
       option: option ?? OCRLangOption[value as keyof typeof OCRLangOption],

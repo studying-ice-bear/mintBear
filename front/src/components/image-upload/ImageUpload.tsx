@@ -61,6 +61,7 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
     }
     setImageUrl(null);
     setParsedText(null);
+    setUploadProgress(null);
 
     const storageRef = ref(firebaseStorage, `files/${file[0].name}`);
     const uploadTask = uploadBytesResumable(storageRef, file[0]);
@@ -79,11 +80,11 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
         try {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           setImageUrl(downloadURL);
+          setUploadProgress(null);
           await getParsing({
             url: downloadURL,
             option: option ?? OCRLangOption[lng],
           });
-          setUploadProgress(null);
         } catch (error) {
           setImageUrl(null);
           setUploadProgress(null);

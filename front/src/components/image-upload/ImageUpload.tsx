@@ -23,7 +23,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import useParser, { OCRLangOption } from "@/app/store/useParser";
 import { postImageOCRData } from "@/api/imageParse";
 import { Locale } from "@/i18n-config";
-import ImageCropModal from "./imageCropModal";
+import ImageCropModal from "./ImageCropModal";
 const imageSelectDic: Record<Locale, string> = {
   "ko-KR": "이미지 선택",
   "en-US": "Select Image",

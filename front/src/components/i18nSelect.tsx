@@ -1,18 +1,18 @@
 "use client";
-import { LANGUAGE_OPTIONS } from "@/i18n-config";
+import { LANGUAGE_OPTIONS, Locale } from "@/i18n-config";
 import { Select, SelectItem } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { ChangeEventHandler } from "react";
 import { usePathname } from "next/navigation";
 
-const selectLabel = {
+const selectLabel: Record<Locale, string> = {
   "ko-KR": "한국어",
   "en-US": "English",
   "ja-JA": "日本語",
 };
 
-const I18nSelect = ({ lng }: { lng: string }) => {
+const I18nSelect = ({ lng }: { lng: Locale }) => {
   const options = Object.entries(LANGUAGE_OPTIONS).map(([key, value]) => ({
     label: value,
     value: key,
@@ -32,9 +32,7 @@ const I18nSelect = ({ lng }: { lng: string }) => {
   };
   return (
     <Select
-      placeholder={
-        selectLabel[lng as keyof typeof selectLabel] ?? "Select language"
-      }
+      placeholder={selectLabel[lng] ?? "Select language"}
       className="min-w-[100px]"
       onChange={onChange}
       classNames={{

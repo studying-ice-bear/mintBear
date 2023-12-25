@@ -32,7 +32,6 @@ export const Navbar = ({ lng }: { lng: keyof typeof LANGUAGE_OPTIONS }) => {
   const getIsActive = (href: string) => {
     const hrefWithoutHome = href === "/" ? "" : href;
     const hrefPathName = `/${lng}${hrefWithoutHome}`;
-    console.log(hrefPathName, pathName);
     if (pathName === hrefPathName) {
       return true;
     }

@@ -20,7 +20,6 @@ export default function LanguageSelect({ ...rest }: LanguageSelectProps) {
 
   const onSelectLanguage: ChangeEventHandler<HTMLSelectElement> = (event) => {
     languageChanged(event.target.value);
-    console.log(selectedLanguage);
   };
 
   const selectOptions = Object.entries(LANGUAGE_OPTIONS).map(

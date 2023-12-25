@@ -10,7 +10,6 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 import { useTextTranslateValue } from "./textTranslateProvider";
-import { useEffect } from "react";
 
 export default function TranslatedTextList() {
   const columns = [
@@ -20,10 +19,6 @@ export default function TranslatedTextList() {
   ];
 
   const { translatedTextList } = useTextTranslateValue();
-
-  useEffect(() => {
-    console.log(translatedTextList, "translatedTextList");
-  }, [translatedTextList]);
   return (
     <Table aria-label="Example table with dynamic content">
       <TableHeader>

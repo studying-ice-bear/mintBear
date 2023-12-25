@@ -16,7 +16,7 @@ export async function postImageOCRData({
   try {
     const origin = window.location.origin;
     const res = await axios.post(
-      "http://52.193.209.99:8080/v1/ocr/translate",
+      "https://mintbearapi.click/v1/ocr/translate",
       {
         url,
         option,
@@ -24,7 +24,6 @@ export async function postImageOCRData({
       {
         headers: {
           "Content-Type": "application/json",
-          Origin: origin,
         },
       }
     );

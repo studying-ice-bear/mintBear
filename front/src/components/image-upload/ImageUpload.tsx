@@ -24,7 +24,9 @@ import useParser from "@/app/store/useParser";
 import { postImageOCRData } from "@/api/imageParse";
 import { Locale } from "@/i18n-config";
 const ImageEditor = dynamic(() => import("./imageEditor"));
-export const OCRLangOption = {
+
+export type TOCRLangOption = "KO" | "EN-US" | "JA";
+export const OCRLangOption: Record<Locale, TOCRLangOption> = {
   "ko-KR": "KO",
   "en-US": "EN-US",
   "ja-JA": "JA",
@@ -48,8 +50,13 @@ const titleDic: Record<Locale, string> = {
 };
 const ImageUpload = ({ lng }: { lng: Locale }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { imageUrl, setImageUrl, setParsedText, setIsParseLoading } =
-    useParser();
+  const {
+    imageUrl,
+    setImageUrl,
+    setParsedText,
+    setIsParseLoading,
+    getParsing,
+  } = useParser();
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -78,17 +85,11 @@ const ImageUpload = ({ lng }: { lng: Locale }) => {
         try {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           setImageUrl(downloadURL);
+          await getParsing({ url: downloadURL, option: OCRLangOption[lng] });
           setUploadProgress(null);
-          setIsParseLoading(true);
-          const parsedResult = await postImageOCRData({
-            url: downloadURL,
-            option: OCRLangOption[lng as keyof typeof OCRLangOption],
-          });
-          setParsedText(parsedResult.data);
-          setIsParseLoading(false);
         } catch (error) {
-          console.log(error);
-          setIsParseLoading(false);
+          setImageUrl(null);
+          setUploadProgress(null);
         }
       }
     );

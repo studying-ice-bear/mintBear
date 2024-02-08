@@ -15,14 +15,14 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry){
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080", "https://mint-bear.vercel.app",
+                .allowedOrigins("http://localhost:8080", "https://mint-bear.monster/",
+                        "https://www.mint-bear.monster",
                         "http://localhost:3000",
                         "https://localhost:3000",
                         "https://127.0.0.1:3000"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("Authorization", "Content-Type")
-                .exposedHeaders("Custom-Header")
                 .allowCredentials(true)
                 .maxAge(3600);
 

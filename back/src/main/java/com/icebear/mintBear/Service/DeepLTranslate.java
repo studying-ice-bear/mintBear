@@ -22,6 +22,7 @@ public class DeepLTranslate {
     }
 
     public static String execute(String text, String language) throws Exception {
+
         StopWatch totalTime = new StopWatch();
         totalTime.start();
 
@@ -30,22 +31,31 @@ public class DeepLTranslate {
         Usage usage = translator.getUsage();
 
         try {
+            // check text
+            if(text.isEmpty()){
+                return "";
+            }
+
+            // check language
+            if(language.isEmpty()){
+                throw new CustomException(HttpErrorCode.OPTION_NOT_FOUND);
+            }
+
             // Deepl usage limited
             if (usage.anyLimitReached()) {
                 throw new CustomException(HttpErrorCode.TOO_MANY_REQUESTS);
             }
+
             // check Deepl usage
-            if (usage.getCharacter() != null) {
+            if (usage.getCharacter() != null && usage.getDocument() != null) {
                 log.info("Character usage: "+usage.getCharacter().getCount() + "of " + usage.getCharacter().getLimit());
+                log.info("Document usage: "+usage.getDocument().getCount() + "of " + usage.getDocument().getLimit());
             }
-            // check Deepl usage
-            if (usage.getDocument() != null) {
-                log.info("Character usage: "+usage.getDocument().getCount() + "of " + usage.getDocument().getLimit());
-            }
+
             // Translate text into a target language
             TextResult result = translator.translateText(text, null, language);
             totalTime.stop();
-            System.out.println("DeepL-API Total Time : " + totalTime.getTotalTimeMillis() + "ms");
+
             log.info("DeepL-API Total Time : {}",totalTime.getTotalTimeMillis() + "ms");
 
             return result.getText();

@@ -15,17 +15,17 @@ public class TimeTraceAop {
     @Around("execution(* com.icebear..*(..))")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
-        String time = joinPoint.toString();
-        System.out.println("START: " + time);
-        log.info("Start={}",time);
+        String joinPointString = joinPoint.toString();
+
+        log.info("Start={}",joinPointString);
+
         try {
             return joinPoint.proceed();
         } finally {
             long finish = System.currentTimeMillis();
             long timeMs = finish - start;
-            System.out.println("END: " + time+ " " + timeMs +
-                    "ms");
-            log.info("END={}ms",time+" "+timeMs);
+
+            log.info("END={}ms",joinPointString+" "+timeMs);
         }
     }
 }

@@ -7,6 +7,8 @@ import com.google.cloud.vision.v1.Feature;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageSource;
+import com.icebear.mintBear.Exception.CustomException;
+import com.icebear.mintBear.Exception.HttpErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,12 @@ import java.util.List;
 public class GoogleVisionOCR {
     private static final Logger log = LoggerFactory.getLogger(GoogleVisionOCR.class);
     public static String execute(String url) throws Exception {
+
+        // url check
+        if(url.isBlank()){
+            throw new CustomException(HttpErrorCode.URL_NOT_FOUND);
+        }
+
         StopWatch totalTime = new StopWatch();
         totalTime.start();
 
@@ -41,7 +49,6 @@ public class GoogleVisionOCR {
             StringBuilder result = new StringBuilder();
             for (AnnotateImageResponse res : responses) {
                 if (res.hasError()) {
-                    System.out.format("OCR-API Error: %s%n", res.getError().getMessage());
                     log.error("OCR-API Error log={}",res.getError().getMessage());
                     return null;
                 }
@@ -53,7 +60,7 @@ public class GoogleVisionOCR {
             }
 
             totalTime.stop();
-            System.out.println("OCR-API Total Time : " + totalTime.getTotalTimeMillis() + "ms");
+
             log.info("OCR-API Total Time : {}",totalTime.getTotalTimeMillis() + "ms");
 
             return result.toString().replaceAll("(\r\n|\r|\n|\n\r)", " ");

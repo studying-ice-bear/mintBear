@@ -12,12 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
 
 import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/ocr/*")
+@RequestMapping(value = "/ocr/*", method = RequestMethod.POST)
 public class MintBearController {
     HttpHeaders headers = new HttpHeaders();
 
@@ -31,10 +32,7 @@ public class MintBearController {
         String url = img.getUrl();
         String language = img.getOption();
 
-        if(url.isBlank()){
-            throw new CustomException(HttpErrorCode.URL_NOT_FOUND);
-        }
-
+        // Check Bucket Tokens
         if(bucket.getAvailableTokens() == 0){
             throw new CustomException(HttpErrorCode.TOO_MANY_REQUESTS);
         }
@@ -43,12 +41,13 @@ public class MintBearController {
         bucket.tryConsume(1);
 
         // Execute GoogleVisionOCR
-        String parsed = GoogleVisionOCR.execute(url);
+        String text = GoogleVisionOCR.execute(url);
 
         // Execute DeepLTranslate
-        String result = DeepLTranslate.execute(parsed, language);
+        String result = DeepLTranslate.execute(text, language);
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(result);
 
     }
+
 }

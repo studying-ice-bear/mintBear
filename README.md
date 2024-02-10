@@ -28,8 +28,7 @@
 - ###### Text Extraction : Google Vision API OCR
 - ###### Text Translation : DeepL API
 
-- **_VIDEO_**
-  https://github.com/studying-ice-bear/mintBear/assets/93570122/e73c6f1a-e0a6-45aa-a9d5-1096e0943883
+https://github.com/studying-ice-bear/mintBear/assets/93570122/f1da12e5-ed67-442a-9711-451655ae46c3
 
 ### Feature 2
 
@@ -41,13 +40,17 @@
 
 ### Support I18n
 
-- **_VIDEO_**
-  https://github.com/studying-ice-bear/mintBear/assets/93570122/33bca9d7-a55b-4d1f-b617-8831f08eb084
+
+
+https://github.com/studying-ice-bear/mintBear/assets/93570122/63c5cb98-91df-4ab0-a999-48a4953db906
+
 
 ### Mobile
 
-- **_VIDEO_**
-  https://github.com/studying-ice-bear/mintBear/assets/93570122/8ae9a364-f0f6-45bb-9fcd-9ca958e146fe
+
+https://github.com/studying-ice-bear/mintBear/assets/93570122/b73d1b3f-5b13-4cf3-9586-00092bb3380b
+
+
 
 ## 🐛 Development Environment
 

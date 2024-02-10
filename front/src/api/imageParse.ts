@@ -6,6 +6,8 @@ export interface ParseResult {
   data: string;
 }
 
+export const SERVER_URL = "https://mintbearapi.click";
+
 export async function postImageOCRData({
   url,
   option,
@@ -16,7 +18,7 @@ export async function postImageOCRData({
   try {
     const origin = window.location.origin;
     const res = await axios.post(
-      "https://www.mintbearapi.click/v1/ocr/translate",
+      `${SERVER_URL}/v1/ocr/translate`,
       {
         url,
         option,

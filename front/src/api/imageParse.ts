@@ -16,7 +16,7 @@ export async function postImageOCRData({
   try {
     const origin = window.location.origin;
     const res = await axios.post(
-      "https://mintbearapi.click/v1/ocr/translate",
+      "https://www.mintbearapi.click/v1/ocr/translate",
       {
         url,
         option,

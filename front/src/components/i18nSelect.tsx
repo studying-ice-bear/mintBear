@@ -1,10 +1,16 @@
 "use client";
-import { LANGUAGE_OPTIONS, Locale } from "@/i18n-config";
+import {
+  LANGUAGE_OPTIONS,
+  Locale,
+  getCurrentLanguage,
+  getHref,
+} from "@/i18n-config";
 import { Select, SelectItem } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { ChangeEventHandler } from "react";
 import { usePathname } from "next/navigation";
+import useParser, { OCRLangOption } from "@/app/store/useParser";
 
 const selectLabel: Record<Locale, string> = {
   "ko-KR": "한국어",
@@ -17,18 +23,20 @@ const I18nSelect = ({ lng }: { lng: Locale }) => {
     label: value,
     value: key,
   }));
+  const { imageUrl, getParsing } = useParser();
   const router = useRouter();
   const pathname = usePathname();
-  const getHref = (value: string) => {
-    const exceptLanguagePathname = pathname
-      .split("/")
-      .filter((path) => !Object.keys(LANGUAGE_OPTIONS).includes(path));
-    const href = `/${value}${exceptLanguagePathname.join("/")}`;
-    return href;
-  };
+  const currentLanguage = getCurrentLanguage(pathname);
   const onChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = event.target.value;
-    router.push(getHref(value));
+    router.push(getHref(value, pathname));
+    const selectedOption =
+      OCRLangOption[value as keyof typeof OCRLangOption] ??
+      OCRLangOption[currentLanguage as keyof typeof OCRLangOption];
+    getParsing({
+      url: imageUrl!,
+      option: selectedOption,
+    });
   };
   return (
     <Select
@@ -39,7 +47,7 @@ const I18nSelect = ({ lng }: { lng: Locale }) => {
         trigger: "h-10",
       }}
     >
-      {options.map(({ label, value }) => (
+      {options.map(({ value }) => (
         <SelectItem key={value} value={value}>
           {selectLabel[value as keyof typeof selectLabel]}
         </SelectItem>

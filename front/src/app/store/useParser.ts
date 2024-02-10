@@ -42,7 +42,7 @@ const useParser = create<ParserState>()((set, get) => ({
     url: string;
     option: TOCRLangOption | undefined;
   }) => {
-    set({ isParseLoading: true });
+    set({ isParseLoading: true, parsedText: null });
     try {
       const response = await postImageOCRData({
         url,

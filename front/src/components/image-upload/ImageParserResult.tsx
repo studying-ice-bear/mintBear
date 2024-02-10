@@ -1,6 +1,6 @@
 "use client";
 import useParser, { OCRLangOption } from "@/app/store/useParser";
-import { Locale } from "@/i18n-config";
+import { Locale, getCurrentLanguage } from "@/i18n-config";
 import {
   Button,
   Card,
@@ -12,6 +12,7 @@ import {
   SelectItem,
   Textarea,
 } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 import React from "react";
 const titleDic: Record<Locale, string> = {
   "en-US": "Image parsing result",
@@ -47,12 +48,18 @@ const ImageParserResult = ({ lng }: { lng: Locale }) => {
     option,
     setOption,
   } = useParser();
+  const pathname = usePathname();
+  const currentLanguage = getCurrentLanguage(pathname);
   const handleSelect: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = event.target.value;
-    setOption(OCRLangOption[value as keyof typeof OCRLangOption]);
+    const selectedOption =
+      OCRLangOption[value as keyof typeof OCRLangOption] ??
+      OCRLangOption[currentLanguage as keyof typeof OCRLangOption];
+
+    setOption(selectedOption);
     getParsing({
       url: imageUrl!,
-      option: OCRLangOption[value as keyof typeof OCRLangOption],
+      option: selectedOption,
     });
   };
   return (
@@ -67,9 +74,10 @@ const ImageParserResult = ({ lng }: { lng: Locale }) => {
           classNames={{
             trigger: "h-10",
           }}
-          defaultSelectedKeys={[lng]}
           isDisabled={!imageUrl || isParseLoading}
           onChange={handleSelect}
+          defaultSelectedKeys={[currentLanguage]}
+          value={option}
         >
           {languages.map(({ value, label }) => (
             <SelectItem key={value} value={value}>

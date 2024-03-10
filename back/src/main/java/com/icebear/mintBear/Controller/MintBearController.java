@@ -4,7 +4,7 @@ import com.icebear.mintBear.Exception.HttpErrorCode;
 import com.icebear.mintBear.Exception.CustomException;
 import com.icebear.mintBear.Service.DeepLTranslate;
 import com.icebear.mintBear.Service.GoogleVisionOCR;
-import com.icebear.mintBear.Domain.imgVO;
+import com.icebear.mintBear.UtilClass.imgVO;
 import io.github.bucket4j.Bucket;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
 
 import java.nio.charset.StandardCharsets;
 

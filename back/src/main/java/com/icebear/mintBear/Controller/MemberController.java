@@ -1,10 +1,14 @@
 package com.icebear.mintBear.Controller;
 
+import com.icebear.mintBear.Dto.MemberDto;
+import com.icebear.mintBear.Dto.SignUpDto;
 import com.icebear.mintBear.UtilClass.JwtToken;
 import com.icebear.mintBear.Dto.SignInDto;
 import com.icebear.mintBear.Service.MemberService;
+import com.icebear.mintBear.UtilClass.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +32,15 @@ public class MemberController {
         return jwtToken;
     }
 
+    @PostMapping("/sign-up")
+    public ResponseEntity<MemberDto> signUp(@RequestBody SignUpDto signUpDto) {
+        MemberDto savedMemberDto = memberService.signUp(signUpDto);
+        return ResponseEntity.ok(savedMemberDto);
+    }
+
     @PostMapping("/test")
     public String test() {
-        return "success";
+        return SecurityUtil.getCurrentUsername();
     }
 
 }

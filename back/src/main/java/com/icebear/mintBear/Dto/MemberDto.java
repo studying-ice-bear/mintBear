@@ -13,9 +13,6 @@ public class MemberDto {
     private Long id;
     private String username;
     private String nickname;
-    private String address;
-    private String phone;
-    private String profileImg;
 
     static public MemberDto toDto(Member member) {
         return MemberDto.builder()

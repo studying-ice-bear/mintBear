@@ -51,3 +51,7 @@ export const subtitle = tv({
     fullWidth: true,
   },
 });
+
+export const MAX_NICKNAME_LENGTH = 12;
+export const MAX_ID_LENGTH = 12;
+export const MAX_PASSWORD_LENGTH = 16;

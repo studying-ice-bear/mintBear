@@ -1,4 +1,9 @@
-export const i18n = {
+export type i18n = {
+  defaultLocale: Locale;
+  locales: Locale[];
+};
+
+export const i18n: i18n = {
   defaultLocale: "en-US",
   locales: ["en-US", "ko-KR", "ja-JA"],
 } as const;
@@ -9,7 +14,7 @@ export const LANGUAGE_OPTIONS = {
   "ja-JA": "Japanese",
 } as const;
 
-export type Locale = (typeof i18n)["locales"][number];
+export type Locale = "en-US" | "ko-KR" | "ja-JA";
 
 export const getHref = (value: string, pathname: string) => {
   const exceptLanguagePathname = pathname

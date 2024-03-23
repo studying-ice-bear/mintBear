@@ -8,7 +8,7 @@ import {
 import {
   useTextTranslateAction,
   useTextTranslateValue,
-} from "./textTranslateProvider";
+} from "./TextTranslateProvider";
 import { ChangeEventHandler } from "react";
 import { LANGUAGE_OPTIONS } from "@/i18n-config";
 

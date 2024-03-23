@@ -9,7 +9,7 @@ import {
   TableRow,
   getKeyValue,
 } from "@nextui-org/react";
-import { useTextTranslateValue } from "./textTranslateProvider";
+import { useTextTranslateValue } from "./TextTranslateProvider";
 
 export default function TranslatedTextList() {
   const columns = [

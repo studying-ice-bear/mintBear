@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/react";
 import {
   useTextTranslateAction,
   useTextTranslateValue,
-} from "./textTranslateProvider";
+} from "./TextTranslateProvider";
 
 export default function TranslateButton() {
   const { selectedLanguage, selectedText } = useTextTranslateValue(); // 원래는 request 이후 받아와야 하는 번역된 Value

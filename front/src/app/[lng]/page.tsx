@@ -6,11 +6,13 @@ import {
   title2,
   subtitle as subtitleDictionary,
 } from "./dictionary";
-import { GithubIcon } from "@/components/icons";
+import { GithubIcon } from "@/components/common/Icons";
 import { siteConfig } from "@/config/site";
 import { Link } from "@nextui-org/link";
 import { button as buttonStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
+import { Button } from "@nextui-org/react";
+import SignIn from "@/components/common/SignIn";
 
 export default async function Page({
   params: { lng },
@@ -28,6 +30,10 @@ export default async function Page({
         <h2 className={subtitle({ class: "mt-10" })}>
           {subtitleDictionary[lng]}
         </h2>
+        <br />
+        <div className="flex flex-row justify-center">
+          <SignIn />
+        </div>
       </div>
       <footer className="w-full fixed bottom-0 flex justify-center gap-4 p-4 bg-background">
         <Link

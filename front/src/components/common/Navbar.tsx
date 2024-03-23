@@ -17,11 +17,11 @@ import { navLabelDictionary, siteConfig } from "@/config/site";
 import NextLink from "next/link";
 import clsx from "clsx";
 
-import { ThemeSwitch } from "@/components/theme-switch";
-import { GithubIcon } from "@/components/icons";
+import { ThemeSwitch } from "@/components/ThemeSwitch";
+import { GithubIcon } from "@/components/common/Icons";
 
-import { Logo } from "@/components/logo";
-import I18nSelect from "./i18nSelect";
+import { Logo } from "@/components/common/Logo";
+import I18nSelect from "./I18nSelect";
 import { LANGUAGE_OPTIONS } from "@/i18n-config";
 import React from "react";
 import { usePathname } from "next/navigation";
@@ -29,6 +29,9 @@ import { usePathname } from "next/navigation";
 export const Navbar = ({ lng }: { lng: keyof typeof LANGUAGE_OPTIONS }) => {
   const [isToggled, setToggle] = React.useState(false);
   const pathName = usePathname();
+  if (pathName.includes("/auth") || pathName.includes("/api")) {
+    return null;
+  }
   const getIsActive = (href: string) => {
     const hrefWithoutHome = href === "/" ? "" : href;
     const hrefPathName = `/${lng}${hrefWithoutHome}`;

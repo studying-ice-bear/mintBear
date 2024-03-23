@@ -1,7 +1,7 @@
 "use client";
 import { Card, Textarea, TextAreaProps } from "@nextui-org/react";
 import { ChangeEventHandler, ReactEventHandler, useRef } from "react";
-import { useTextTranslateAction } from "./textTranslateProvider";
+import { useTextTranslateAction } from "./TextTranslateProvider";
 
 export interface TextSelectionProps extends TextAreaProps {}
 

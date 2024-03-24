@@ -22,14 +22,12 @@ const handler = NextAuth({
       },
 
       async authorize(credentials, req) {
-        console.log("req", req);
         // You need to provide your own logic here that takes the credentials
         // submitted and returns either a object representing a user or value
         // that is false/null if the credentials are invalid.
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        console.log("credentials", credentials);
         const bodyData = JSON.stringify({
           username: credentials?.username,
           password: credentials?.password,
@@ -39,13 +37,11 @@ const handler = NextAuth({
           body: bodyData,
           headers: { "Content-Type": "application/json" },
         });
-        const user = await res.json();
-        console.log("user", user);
-
         // If no error and we have user data, return it
-        // if (res.ok && user) {
-        //   return user;
-        // }
+        if (res.ok) {
+          const user = await res.json();
+          return user;
+        }
         // Return null if user data could not be retrieved
         return null;
       },

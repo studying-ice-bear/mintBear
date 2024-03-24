@@ -30,9 +30,6 @@ export default function SignIn() {
       ...data,
       redirect: false,
     });
-    console.log(res);
-
-    // console.log("data", data);
   };
   return (
     <form method="POST" action={handleSubmit}>

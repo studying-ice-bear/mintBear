@@ -55,4 +55,13 @@ public class MemberService{
         return MemberDto.toDto(memberRepository.save(signUpDto.toEntity(encodedPassword, roles)));
     }
 
+    @Transactional
+    public boolean deleteMember(String username) {
+        if (!memberRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("존재 하지 않는 사용자 이름입니다.");
+        }
+        memberRepository.deleteByUsername(username);
+        return true;
+    }
+
 }

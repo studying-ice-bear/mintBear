@@ -7,6 +7,7 @@ import { Navbar } from "@/components/common/Navbar";
 import clsx from "clsx";
 import { LANGUAGE_OPTIONS, i18n } from "../../i18n-config";
 import SessionWrapper from "@/components/SessionWrapper";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: {
@@ -51,6 +52,7 @@ export default function RootLayout({
           <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
             <div className="relative flex flex-col h-screen">
               <Navbar lng={lng} />
+              <Toaster position="bottom-center" />
               <main className="container mx-auto max-w-7xl px-6 flex-grow flex items-center justify-center">
                 {children}
               </main>

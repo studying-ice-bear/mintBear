@@ -5,6 +5,7 @@ import { Providers } from "../providers";
 import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: {
@@ -38,6 +39,7 @@ export default function RootLayout({
           )}
         >
           <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+            <Toaster position="bottom-center" />
             <div className="relative flex flex-col h-screen">
               <main className="container mx-auto max-w-7xl px-6 flex-grow flex items-center justify-center">
                 {children}

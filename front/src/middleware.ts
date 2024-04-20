@@ -6,7 +6,7 @@ import { i18n } from "./i18n-config";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
 import { authPages } from "./config/pages";
-
+// import NextAuthMiddleWare from "next-auth/middleware";
 function getLocale(request: NextRequest): string | undefined {
   // Negotiator expects plain object so we need to transform headers
   const negotiatorHeaders: Record<string, string> = {};
@@ -23,24 +23,30 @@ function getLocale(request: NextRequest): string | undefined {
 
   return locale;
 }
+import {
+  NextAuthMiddlewareOptions,
+  NextMiddlewareWithAuth,
+  withAuth,
+} from "next-auth/middleware";
 
-export function middleware(request: NextRequest) {
+export interface NextRequestWithNextAuth extends NextRequest {
+  nextauth: {
+    token: {
+      grantType: string;
+      accessToken: string;
+      refreshToken: string;
+      iat: number;
+      exp: number;
+      jti: string;
+    } | null;
+  };
+}
+
+const middleware: NextMiddlewareWithAuth = (request) => {
   const pathname = request.nextUrl.pathname;
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
 
-  // // `/_next/` and `/api/` are ignored by the watcher, but we need to ignore files in `public` manually.
-  // // If you have one
-  // if (
-  //   [
-  //     '/manifest.json',
-  //     '/favicon.ico',
-  //     // Your other files in `public`
-  //   ].includes(pathname)
-  // )
-  //   return
-
-  // Check if there is any supported locale in the pathname
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
@@ -66,7 +72,18 @@ export function middleware(request: NextRequest) {
       headers: requestHeaders,
     },
   });
-}
+};
+const middlewareOptions: NextAuthMiddlewareOptions = {
+  callbacks: {
+    authorized: ({ req, token }) => {
+      return !!token?.accessToken && !!token?.refreshToken;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: authPages,
+};
+
+export default withAuth(middleware, middlewareOptions);
 
 export const config = {
   // Matcher ignoring `/_next/` and `/api/`

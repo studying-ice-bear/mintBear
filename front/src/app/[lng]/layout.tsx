@@ -8,6 +8,8 @@ import clsx from "clsx";
 import { LANGUAGE_OPTIONS, i18n } from "../../i18n-config";
 import SessionWrapper from "@/components/SessionWrapper";
 import { Toaster } from "react-hot-toast";
+import { getServerSession } from "next-auth/next";
+import { CustomSession, getUserServerSession } from "@/api/serverApi";
 
 export const metadata: Metadata = {
   title: {
@@ -30,7 +32,7 @@ export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lng: locale }));
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params: { lng },
 }: {
@@ -39,6 +41,7 @@ export default function RootLayout({
     lng: keyof typeof LANGUAGE_OPTIONS;
   };
 }) {
+  const session = (await getUserServerSession()) as CustomSession;
   return (
     <SessionWrapper>
       <html lang={lng} suppressHydrationWarning>
@@ -51,8 +54,7 @@ export default function RootLayout({
         >
           <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
             <div className="relative flex flex-col h-screen">
-              <Navbar lng={lng} />
-              <Toaster position="bottom-center" />
+              <Navbar lng={lng} session={session} />
               <main className="container mx-auto max-w-7xl px-6 flex-grow flex items-center justify-center">
                 {children}
               </main>

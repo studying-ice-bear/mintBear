@@ -3,7 +3,6 @@ import useParser from "@/app/store/useParser";
 import { Button } from "@nextui-org/react";
 import React from "react";
 import { postImageOCRData } from "@/api/imageParse.ts";
-import { useSuspenseQuery } from "@tanstack/react-query";
 
 // const useParserQuery = ({ imageUrl }: { imageUrl: string | null }) => {
 //   if (imageUrl === null) {
@@ -26,7 +25,7 @@ const ImageParserButton = () => {
       return alert("image url is required");
     }
     const parsedResult = await postImageOCRData({ url: imageUrl });
-    setParsedText(parsedResult.data);
+    setParsedText(parsedResult);
   };
   return (
     <Button

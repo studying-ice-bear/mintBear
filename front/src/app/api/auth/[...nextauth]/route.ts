@@ -1,10 +1,20 @@
-import { SERVER_URL } from "@/api/imageParse";
+import { SERVER_URL } from "@/api/serverApi";
 import { authPages } from "@/config/pages";
-import NextAuth from "next-auth";
+import { Session } from "inspector";
+import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-const handler = NextAuth({
+
+export interface User {
+  id: number;
+  username: string;
+  password: string;
+}
+export const authOptions: AuthOptions = {
   pages: authPages,
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -29,6 +39,9 @@ const handler = NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
+        if (!credentials?.username || !credentials?.password) {
+          return null;
+        }
         const bodyData = JSON.stringify({
           username: credentials?.username,
           password: credentials?.password,
@@ -41,7 +54,10 @@ const handler = NextAuth({
         // If no error and we have user data, return it
         if (res.ok) {
           const user = await res.json();
-          return user;
+          return {
+            ...user,
+            usename: credentials?.username,
+          };
         }
         // Return null if user data could not be retrieved
         return null;
@@ -60,6 +76,7 @@ const handler = NextAuth({
     },
   },
   debug: process.env.NODE_ENV !== "production",
-});
+};
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

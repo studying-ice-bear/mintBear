@@ -18,15 +18,24 @@ import NextLink from "next/link";
 import clsx from "clsx";
 
 import { ThemeSwitch } from "@/components/ThemeSwitch";
-import { GithubIcon } from "@/components/common/Icons";
+import { GithubIcon, MyPageIcon } from "@/components/common/Icons";
 
 import { Logo } from "@/components/common/Logo";
 import I18nSelect from "./I18nSelect";
 import { LANGUAGE_OPTIONS } from "@/i18n-config";
 import React from "react";
 import { usePathname } from "next/navigation";
+import SignOut from "./SignOut";
+import { CustomSession } from "@/api/serverApi";
+import MyPageButton from "./MyPageButton";
 
-export const Navbar = ({ lng }: { lng: keyof typeof LANGUAGE_OPTIONS }) => {
+export const Navbar = ({
+  lng,
+  session,
+}: {
+  lng: keyof typeof LANGUAGE_OPTIONS;
+  session: CustomSession;
+}) => {
   const [isToggled, setToggle] = React.useState(false);
   const pathName = usePathname();
   if (pathName.includes("/auth") || pathName.includes("/api")) {
@@ -60,7 +69,7 @@ export const Navbar = ({ lng }: { lng: keyof typeof LANGUAGE_OPTIONS }) => {
             <p className="font-bold text-inherit">Mint Bear</p>
           </NextLink>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+        <ul className="hidden sm:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href} isActive={getIsActive(item.href)}>
               <NextLink
@@ -87,7 +96,9 @@ export const Navbar = ({ lng }: { lng: keyof typeof LANGUAGE_OPTIONS }) => {
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
+          <SignOut />
           <I18nSelect lng={lng} />
+          <MyPageButton session={session} lng={lng} />
           <Link isExternal href={siteConfig.links.github} aria-label="Github">
             <GithubIcon className="text-default-500" />
           </Link>
@@ -97,6 +108,7 @@ export const Navbar = ({ lng }: { lng: keyof typeof LANGUAGE_OPTIONS }) => {
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
         <I18nSelect lng={lng} />
+        <MyPageButton session={session} lng={lng} />
         <Link isExternal href={siteConfig.links.github} aria-label="Github">
           <GithubIcon className="text-default-500" />
         </Link>
@@ -105,6 +117,7 @@ export const Navbar = ({ lng }: { lng: keyof typeof LANGUAGE_OPTIONS }) => {
       </NavbarContent>
 
       <NavbarMenu>
+        <SignOut />
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navItems.map((item, index) => (
             <NavbarMenuItem

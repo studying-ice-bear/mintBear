@@ -80,4 +80,5 @@ export const siteConfig = {
   links: {
     github: "https://github.com/studying-ice-bear/mintBear",
   },
+  myPageHref: "/my-page",
 };

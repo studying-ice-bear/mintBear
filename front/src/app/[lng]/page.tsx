@@ -6,7 +6,7 @@ import {
   title2,
   subtitle as subtitleDictionary,
 } from "./dictionary";
-import { GithubIcon } from "@/components/icons";
+import { GithubIcon } from "@/components/common/Icons";
 import { siteConfig } from "@/config/site";
 import { Link } from "@nextui-org/link";
 import { button as buttonStyles } from "@nextui-org/theme";
@@ -28,6 +28,7 @@ export default async function Page({
         <h2 className={subtitle({ class: "mt-10" })}>
           {subtitleDictionary[lng]}
         </h2>
+        <br />
       </div>
       <footer className="w-full fixed bottom-0 flex justify-center gap-4 p-4 bg-background">
         <Link

@@ -48,7 +48,7 @@ const useParser = create<ParserState>()((set, get) => ({
         url,
         option,
       });
-      const result = response.data;
+      const result = response;
       set({ parsedText: result, isParseLoading: false });
     } catch (error) {
       set({ parsedText: null, isParseLoading: false });

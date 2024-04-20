@@ -6,7 +6,7 @@ import {
   ModalFooter,
 } from "@nextui-org/react";
 import React, { useState } from "react";
-import ImageEditor from "./imageEditor";
+import ImageEditor from "./ImageEditor";
 import Cropper, { Area } from "react-easy-crop";
 import useParser, { OCRLangOption } from "@/app/store/useParser";
 import { firebaseStorage } from "@/config/firebaseStorage";

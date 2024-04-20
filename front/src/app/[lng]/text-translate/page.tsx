@@ -1,8 +1,8 @@
 import TranslatedTextList from "@/components/text-translate/TranslatedTextList";
-import LanguageSelect from "@/components/text-translate/languageSelect";
-import TextSelection from "@/components/text-translate/textSelection";
-import { TextTranslateProvider } from "@/components/text-translate/textTranslateProvider";
-import TranslateButton from "@/components/text-translate/translateButton";
+import LanguageSelect from "@/components/text-translate/LanguageSelect";
+import TextSelection from "@/components/text-translate/TextSelection";
+import { TextTranslateProvider } from "@/components/text-translate/TextTranslateProvider";
+import TranslateButton from "@/components/text-translate/TranslateButton";
 
 export default function Page({ params: { lng } }: { params: { lng: string } }) {
   return (

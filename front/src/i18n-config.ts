@@ -6,7 +6,7 @@ export type i18n = {
 export const i18n: i18n = {
   defaultLocale: "en-US",
   locales: ["en-US", "ko-KR", "ja-JA"],
-} as const;
+};
 
 export const LANGUAGE_OPTIONS = {
   "en-US": "English",

@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: AuthOptions = {
   pages: authPages,
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.SECRET,
   session: {
     strategy: "jwt",
   },
@@ -45,6 +45,7 @@ export const authOptions: AuthOptions = {
           body: bodyData,
           headers: { "Content-Type": "application/json" },
         });
+        console.log(res);
         // If no error and we have user data, return it
         if (res.ok) {
           const user = await res.json();

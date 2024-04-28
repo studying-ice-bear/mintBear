@@ -23,14 +23,11 @@ export const defaultInitFetchConfig: (session: CustomSession) => RequestInit = (
 
 export const getUserServerSession = async (
   options: Parameters<typeof getServerSession>[0] = {}
-): Promise<CustomSession | NextResponse<unknown>> => {
+): Promise<CustomSession> => {
   const session = await getServerSession({
     ...authOptions,
     ...options,
   });
-  if (!session) {
-    return NextResponse.redirect("/auth/sign-in");
-  }
   return session as CustomSession;
 };
 

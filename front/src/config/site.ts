@@ -2,6 +2,7 @@ import { LANGUAGE_OPTIONS } from "@/i18n-config";
 
 export type SiteConfig = typeof siteConfig;
 
+export const requireAuthPages = ["/chat"];
 export const navLabelDictionary: Record<
   string,
   Record<keyof typeof LANGUAGE_OPTIONS, string>
@@ -16,6 +17,11 @@ export const navLabelDictionary: Record<
     "en-US": "Image Upload",
     "ja-JA": "イメージアップロード",
   },
+  Chat: {
+    "ko-KR": "채팅",
+    "en-US": "Chat",
+    "ja-JA": "チャット",
+  },
 };
 
 export const siteConfig = {
@@ -29,6 +35,10 @@ export const siteConfig = {
     {
       label: "ImageUpload",
       href: "/image-upload",
+    },
+    {
+      label: "Chat",
+      href: "/chat",
     },
     // {
     //   label: "TextTranslate",

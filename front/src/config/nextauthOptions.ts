@@ -45,7 +45,6 @@ export const authOptions: AuthOptions = {
           body: bodyData,
           headers: { "Content-Type": "application/json" },
         });
-        console.log(res);
         // If no error and we have user data, return it
         if (res.ok) {
           const user = await res.json();

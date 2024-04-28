@@ -28,6 +28,9 @@ import {
   NextMiddlewareWithAuth,
   withAuth,
 } from "next-auth/middleware";
+import { requireAuthPages } from "./config/site";
+import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 export interface NextRequestWithNextAuth extends NextRequest {
   nextauth: {
@@ -42,10 +45,12 @@ export interface NextRequestWithNextAuth extends NextRequest {
   };
 }
 
-const middleware: NextMiddlewareWithAuth = (request) => {
+const middleware: NextMiddlewareWithAuth = async (request) => {
   const pathname = request.nextUrl.pathname;
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
+  const cookie = cookies();
+  const nextAuthSessionCookie = cookie.get("next-auth.session-token");
 
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
@@ -76,7 +81,14 @@ const middleware: NextMiddlewareWithAuth = (request) => {
 const middlewareOptions: NextAuthMiddlewareOptions = {
   callbacks: {
     authorized: ({ req, token }) => {
-      return !!token?.accessToken && !!token?.refreshToken;
+      const pathname = req.nextUrl.pathname;
+      const isRequiredAuthPage = requireAuthPages.every((path) =>
+        pathname.endsWith(path)
+      );
+      if (isRequiredAuthPage) {
+        return !!token?.accessToken && !!token?.refreshToken;
+      }
+      return true;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

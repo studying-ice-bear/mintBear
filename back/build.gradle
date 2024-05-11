@@ -22,16 +22,20 @@ repositories {
 }
 
 dependencies {
+	// spring
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework:spring-context:6.0.12'
 	implementation 'com.google.cloud:google-cloud-vision:3.25.0'
 	implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.1.0'
 	implementation 'org.projectlombok:lombok'
 	implementation "com.deepl.api:deepl-java:1.4.0"
 	implementation 'com.bucket4j:bucket4j-core:8.3.0'
+
 	// DB
 	implementation 'org.postgresql:postgresql'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 	// Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
@@ -45,9 +49,13 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
 
+	// test
 	implementation 'org.testng:testng:7.7.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// awsLogs
+	implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 }
 
 //tasks.named('test').configure {

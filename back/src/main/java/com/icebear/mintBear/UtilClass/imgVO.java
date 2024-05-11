@@ -1,4 +1,4 @@
-package com.icebear.mintBear.Domain;
+package com.icebear.mintBear.UtilClass;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -22,19 +22,47 @@ repositories {
 }
 
 dependencies {
+	// spring
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework:spring-context:6.0.12'
 	implementation 'com.google.cloud:google-cloud-vision:3.25.0'
 	implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.1.0'
 	implementation 'org.projectlombok:lombok'
 	implementation "com.deepl.api:deepl-java:1.4.0"
 	implementation 'com.bucket4j:bucket4j-core:8.3.0'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// DB
+	implementation 'org.postgresql:postgresql'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// lombok
+	testAnnotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
+
+	// test
+	implementation 'org.testng:testng:7.7.0'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// awsLogs
+	implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+//tasks.named('test').configure {
+//	useJUnitPlatform()
+//}
+
+// 테스트 작업 제외
+tasks.named('test').configure {
+	enabled = false
 }

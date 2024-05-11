@@ -1,5 +1,5 @@
 package com.icebear.mintBear.Service;
-import com.icebear.mintBear.Domain.ApiKey;
+import com.icebear.mintBear.UtilClass.ApiKey;
 import com.icebear.mintBear.Exception.CustomException;
 import com.icebear.mintBear.Exception.HttpErrorCode;
 import org.slf4j.Logger;

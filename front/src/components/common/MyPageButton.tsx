@@ -20,7 +20,7 @@ const titleLabel: Record<Locale, string> = {
 
 const deleteUserButtonLabel: Record<Locale, string> = {
   "ko-KR": "회원 탈퇴",
-  "en-US": "Delete User",
+  "en-US": "Delete Account",
   "ja-JA": "退会する",
 };
 
@@ -32,6 +32,7 @@ export default function MyPageButton({
   lng: Locale;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  console.log(session);
   if (!session) {
     return null;
   }
@@ -59,16 +60,16 @@ export default function MyPageButton({
                 {titleLabel[lng]}
               </ModalHeader>
               <ModalBody>
-                <p>
-                  <b>{session.user?.username}</b>
-                </p>
+                <ul className="flex flex-col gap-1">
+                  <li>Username: {session?.user?.username}</li>
+                </ul>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   {deleteUserButtonLabel[lng]}
                 </Button>
                 <Button color="primary" onPress={onClose}>
-                  Action
+                  Close
                 </Button>
               </ModalFooter>
             </>

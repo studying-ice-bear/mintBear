@@ -1,5 +1,6 @@
 import { Logo } from "@/components/common/Logo";
 import SignIn from "@/components/common/SignIn";
+import SignUp from "@/components/common/SignUp";
 import { MAX_ID_LENGTH, MAX_PASSWORD_LENGTH } from "@/components/primitives";
 import { Locale } from "@/i18n-config";
 import {

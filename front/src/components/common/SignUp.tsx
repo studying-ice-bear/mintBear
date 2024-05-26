@@ -1,7 +1,4 @@
-import { SERVER_URL } from "@/api/serverApi";
-import { Logo } from "@/components/common/Logo";
-import { MAX_ID_LENGTH, MAX_PASSWORD_LENGTH } from "@/components/primitives";
-import { Locale } from "@/i18n-config";
+import React, { FormHTMLAttributes } from "react";
 import {
   Button,
   Card,
@@ -12,15 +9,18 @@ import {
   Input,
   Link,
 } from "@nextui-org/react";
-import { FormEventHandler } from "react";
+import { MAX_ID_LENGTH, MAX_PASSWORD_LENGTH } from "../primitives";
+import { Logo } from "./Logo";
+import { SERVER_URL } from "@/api/serverApi";
+const env = process.env.NODE_ENV;
 
-export default async function Page({
-  params: { lng },
-}: {
-  params: { lng: Locale };
-}) {
-  const csrfToken = Math.random().toString(36).substring(2);
-  const handleSubmit: (formData: FormData) => void = async (formData) => {
+const apiURL =
+  env === "development" ? "http://localhost:3000" : "https://mintbear.com";
+
+export default function SignUp() {
+  const handleSubmit: FormHTMLAttributes<HTMLFormElement>["action"] = async (
+    formData
+  ) => {
     "use server";
     const bodyData = {
       username: formData.get("username"),
@@ -33,6 +33,7 @@ export default async function Page({
       body: JSON.stringify(bodyData),
       headers: { "Content-Type": "application/json" },
     });
+
     if (res.ok) {
       const user = await res.json();
       return user;
@@ -42,15 +43,15 @@ export default async function Page({
   };
 
   return (
-    <Card className="min-w-[400px] max-w-[700px]">
-      <form method="post" action={handleSubmit}>
+    <Card>
+      <form method="POST" action={handleSubmit}>
         <CardHeader className="flex flex-col items-center gap-4">
           <Logo size={100} />
-          <h1 className="text-2xl">Sign Up</h1>
+          <h1 className="text-2xl">Sign up</h1>
         </CardHeader>
         <Divider />
         <CardBody className="flex w-full flex-wrap md:flex-nowrap gap-4">
-          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+          {/* <input name="csrfToken" type="hidden" defaultValue={csrfToken} /> */}
           <Input
             size="lg"
             label="Username"
@@ -75,17 +76,14 @@ export default async function Page({
             name="nickname"
             className="max-w-100"
             type="text"
-            maxLength={MAX_ID_LENGTH}
+            maxLength={MAX_PASSWORD_LENGTH}
             isRequired
           />
         </CardBody>
         <Divider />
-        <CardFooter className="w-full flex items-center justify-end space-x-2 text-small">
-          <Link href="/auth/sign-in">
-            <Button>Sign In</Button>
-          </Link>
+        <CardFooter className="flex flex-row-reverse">
           <Button className="" color="primary" type="submit">
-            Sign Up
+            Sign up
           </Button>
         </CardFooter>
       </form>

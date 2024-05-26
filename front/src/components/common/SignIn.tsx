@@ -43,6 +43,7 @@ export default function SignIn() {
       router.push("/");
     }
   };
+
   return (
     <Card>
       <form method="POST" action={handleSubmit}>
@@ -73,7 +74,10 @@ export default function SignIn() {
           />
         </CardBody>
         <Divider />
-        <CardFooter className="flex flex-row-reverse">
+        <CardFooter className="w-full flex items-center justify-end space-x-2 text-small">
+          <Button onClick={() => router.push("/auth/sign-up")}>
+            {"Sign Up"}
+          </Button>
           <Button className="" color="primary" type="submit">
             Sign in
           </Button>

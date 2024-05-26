@@ -50,7 +50,7 @@ export const authOptions: AuthOptions = {
           const user = await res.json();
           return {
             ...user,
-            usename: credentials?.username,
+            username: credentials?.username,
           };
         }
         // Return null if user data could not be retrieved
